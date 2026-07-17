@@ -39,6 +39,7 @@
   .nav-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 0;
                overflow-x: auto; scrollbar-width: none; }
   .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-inner::after { content: ''; flex: 0 0 16px; }
   nav a { display: inline-block; padding: 13px 14px; font-size: .83rem; font-weight: 600;
           color: var(--muted); text-decoration: none; white-space: nowrap;
           border-bottom: 3px solid transparent; transition: all .2s; }
@@ -565,6 +566,11 @@ function toggleAcc(btn) {
   } else {
     body.classList.add('open');
     body.style.maxHeight = body.scrollHeight + 'px';
+    body.addEventListener('transitionend', function te(e) {
+      if (e.propertyName !== 'max-height') return;
+      if (body.classList.contains('open')) body.style.maxHeight = 'none';
+      body.removeEventListener('transitionend', te);
+    });
   }
   if (arrow) arrow.textContent = isOpen ? '▼' : '▲';
 }

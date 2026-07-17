@@ -20,6 +20,7 @@
   nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid var(--pe-xlight);padding:0 16px;overflow-x:auto;scrollbar-width:none;}
   nav::-webkit-scrollbar{display:none;}
   .nav-inner{max-width:900px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+  .nav-inner::after{content:'';flex:0 0 16px;}
   .nav-inner::-webkit-scrollbar{display:none;}
   nav a{display:inline-block;padding:13px 14px;font-size:.83rem;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;}
   nav a.active,nav a:hover{color:var(--pe);border-bottom-color:var(--pe);}
@@ -521,7 +522,7 @@
 
 <div class="card">
   <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">욥의 친구들에게 배우는 것</p>
-  <p>잘한 것: 욥 2:13 — 이레바지 못한 고통을 보고 밤낮 칠 일을 말없이 곁에 앉아 있었던 것. 망친 것: 입을 연 순간부터 시작된 설명 강박 — 그들은 침묵을 견디지 못하고 신학적 해설을 시작하면서 실패했습니다.</p>
+  <p>잘한 것: 욥 2:13 — 차마 바라보지 못한 고통을 보고 밤낮 칠 일을 말없이 곁에 앉아 있었던 것. 망친 것: 입을 연 순간부터 시작된 설명 강박 — 그들은 침묵을 견디지 못하고 신학적 해설을 시작하면서 실패했습니다.</p>
 </div>
 
 <div class="compare-grid">
@@ -980,6 +981,11 @@ function toggleAcc(btn){
   } else {
     body.classList.add('open');
     body.style.maxHeight=body.scrollHeight+'px';
+    body.addEventListener('transitionend',function te(e){
+      if(e.propertyName!=='max-height') return;
+      if(body.classList.contains('open')) body.style.maxHeight='none';
+      body.removeEventListener('transitionend',te);
+    });
   }
   if(arrow) arrow.textContent=isOpen?'▼':'▲';
 }
