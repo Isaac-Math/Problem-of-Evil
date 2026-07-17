@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고난과 악의 문제 — 대학생 버전</title>
+<style>
+  :root {
+    --pe:#3d405b; --pe-dark:#23253a; --pe-light:#8e91ad; --pe-xlight:#eaebf2;
+    --gold:#f4a261; --gold-light:#fde9d4;
+    --bg:#f9fafb; --card:#ffffff; --text:#1a1a2e; --muted:#6c757d;
+    --border:#dee2e6; --radius:12px; --shadow:0 2px 12px rgba(0,0,0,0.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Noto Sans KR','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}
+  .site-header{background:linear-gradient(135deg,#23253a 0%,#3d405b 100%);color:#fff;padding:48px 24px 36px;text-align:center;}
+  .site-header h1{font-size:2rem;font-weight:800;margin-bottom:8px;}
+  .site-header p{opacity:.85;font-size:.98rem;max-width:520px;margin:0 auto;line-height:1.7;}
+  .level-badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 16px;font-size:.8rem;margin-top:12px;}
+  nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid var(--pe-xlight);padding:0 16px;overflow-x:auto;scrollbar-width:none;}
+  nav::-webkit-scrollbar{display:none;}
+  .nav-inner{max-width:900px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+  .nav-inner::-webkit-scrollbar{display:none;}
+  nav a{display:inline-block;padding:13px 14px;font-size:.83rem;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;}
+  nav a.active,nav a:hover{color:var(--pe);border-bottom-color:var(--pe);}
+  .section{max-width:860px;margin:0 auto;padding:48px 20px;}
+  .section+.section{border-top:1px solid var(--border);}
+  .section-title{font-size:1.35rem;font-weight:800;color:var(--pe);margin-bottom:6px;}
+  .section-sub{font-size:.9rem;color:var(--muted);margin-bottom:24px;line-height:1.5;}
+  .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:16px;}
+  .highlight-box{background:var(--pe-xlight);border-left:4px solid var(--pe);border-radius:0 var(--radius) var(--radius) 0;padding:16px 20px;margin:16px 0;font-size:.93rem;}
+  .warn-box{background:#fff3cd;border-left:4px solid #ffc107;border-radius:0 8px 8px 0;padding:14px 18px;margin:12px 0;font-size:.9rem;}
+  .info-box{background:#e8f4fd;border-left:4px solid #4895ef;border-radius:0 8px 8px 0;padding:14px 18px;margin:12px 0;font-size:.9rem;}
+  .success-box{background:#d8f3dc;border-left:4px solid #2d6a4f;border-radius:0 8px 8px 0;padding:14px 18px;margin:12px 0;font-size:.9rem;}
+  .care-box{background:var(--gold-light);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0;font-size:.9rem;color:#6b4c1a;line-height:1.7;}
+  .verse-card{background:var(--pe-xlight);border-radius:var(--radius);padding:18px 22px;margin:14px 0;font-size:.95rem;font-style:italic;color:var(--pe-dark);border-left:4px solid var(--pe-light);}
+  .verse-ref{display:block;margin-top:8px;font-size:.8rem;font-style:normal;font-weight:700;color:var(--pe);}
+  .tab-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+  .tab-btn{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:8px 16px;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--muted);transition:.2s;white-space:nowrap;}
+  .tab-btn.active{background:var(--pe);color:#fff;border-color:var(--pe);}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .acc-item{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:8px;}
+  .acc-btn{width:100%;text-align:left;padding:16px 18px;background:var(--card);font-size:.95rem;font-weight:700;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .acc-btn:hover{background:#f8f9fa;}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;padding:0 18px;}
+  .acc-body.open{padding:16px 18px;}
+  .arrow{font-size:.75rem;color:var(--muted);transition:transform .25s;flex-shrink:0;}
+  .flip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:20px;}
+  .flip-card{height:210px;cursor:pointer;perspective:1000px;}
+  .flip-inner{width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;position:relative;}
+  .flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+  .flip-front,.flip-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;}
+  .flip-front{background:var(--card);border:2px solid var(--pe-xlight);}
+  .flip-back{background:var(--pe);color:#fff;transform:rotateY(180deg);}
+  .flip-icon{font-size:2rem;margin-bottom:8px;}
+  .flip-title{font-size:.95rem;font-weight:700;}
+  .flip-subtitle{font-size:.74rem;color:var(--muted);margin-top:3px;}
+  .flip-hint{font-size:.72rem;color:var(--muted);margin-top:6px;}
+  .flip-back-title{font-size:.88rem;font-weight:800;margin-bottom:6px;}
+  .flip-back-text{font-size:.79rem;line-height:1.6;opacity:.95;}
+  .position-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:16px 0;}
+  .pos-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;border-top:4px solid var(--pe-light);}
+  .pos-card.neutral{border-top-color:var(--muted);}
+  .pos-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:4px;}
+  .pos-title{font-size:1rem;font-weight:800;margin-bottom:8px;}
+  .pos-body{font-size:.87rem;color:#444;line-height:1.65;}
+  .person-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+  .person-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;}
+  .person-emoji{font-size:2.2rem;margin-bottom:8px;}
+  .person-name{font-size:1rem;font-weight:800;margin-bottom:2px;}
+  .person-role{font-size:.78rem;color:var(--pe);font-weight:600;margin-bottom:8px;}
+  .person-work{font-size:.8rem;color:var(--muted);font-style:italic;margin-bottom:8px;}
+  .person-desc{font-size:.85rem;color:#444;line-height:1.6;}
+  .heb{font-family:'Noto Serif Hebrew','SBL Hebrew',serif;font-size:1.15em;direction:rtl;display:inline-block;color:var(--pe-dark);font-weight:700;}
+  .gloss-item{border-bottom:1px solid var(--border);padding:14px 0;}
+  .gloss-item:last-child{border-bottom:none;}
+  .gloss-term{font-size:1rem;font-weight:800;color:var(--pe-dark);margin-bottom:2px;}
+  .gloss-orig{font-size:.8rem;color:var(--muted);font-style:italic;margin-bottom:6px;}
+  .gloss-def{font-size:.88rem;line-height:1.65;}
+  .disc-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:12px;border-left:4px solid var(--pe-light);}
+  .disc-num{font-size:.75rem;font-weight:700;color:var(--pe);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .disc-q{font-size:1rem;font-weight:700;margin-bottom:10px;}
+  .disc-hint{font-size:.86rem;color:#555;line-height:1.6;}
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0;}
+  @media(max-width:600px){.compare-grid{grid-template-columns:1fr;}}
+  .compare-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;}
+  .compare-card.bad{border-top:4px solid #e63946;}
+  .compare-card.good{border-top:4px solid #2d6a4f;}
+  .compare-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+  .compare-card.bad .compare-label{color:#c1121f;}
+  .compare-card.good .compare-label{color:#2d6a4f;}
+  .compare-card ul{padding-left:18px;font-size:.88rem;line-height:1.9;}
+  .ref-group{margin-bottom:22px;}
+  .ref-group-title{font-size:.78rem;font-weight:700;color:var(--pe);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--pe-xlight);}
+  .ref-item{font-size:.875rem;line-height:1.75;padding:7px 0;border-bottom:1px solid #f0f0f0;display:flex;gap:8px;}
+  .ref-item:last-child{border-bottom:none;}
+  .ref-num{font-weight:800;color:var(--pe);min-width:22px;flex-shrink:0;}
+  .ref-warning{background:var(--gold-light);border:1px solid var(--gold);border-radius:var(--radius);padding:14px 18px;font-size:.85rem;color:#6b4c1a;margin-top:20px;line-height:1.6;}
+  .quiz-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:16px;}
+  .q-num{font-size:.75rem;font-weight:700;color:var(--pe);text-transform:uppercase;margin-bottom:6px;}
+  .q-text{font-size:1rem;font-weight:700;margin-bottom:14px;line-height:1.5;}
+  .q-options{display:flex;flex-direction:column;gap:8px;}
+  .q-opt{text-align:left;padding:12px 16px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:.9rem;cursor:pointer;transition:.18s;}
+  .q-opt:hover:not(:disabled){border-color:var(--pe);background:var(--pe-xlight);}
+  .q-opt.correct{border-color:#2d6a4f;background:#d8f3dc;color:#2d6a4f;font-weight:700;}
+  .q-opt.wrong{border-color:#e63946;background:#ffe0e3;color:#c1121f;}
+  .q-feedback{margin-top:12px;padding:10px 14px;border-radius:8px;background:var(--pe-xlight);font-size:.88rem;border-left:3px solid var(--pe);}
+  .score-box{background:var(--pe);color:#fff;border-radius:var(--radius);padding:28px;text-align:center;margin-top:24px;}
+  .score-num{font-size:2.8rem;font-weight:800;margin-bottom:4px;}
+  footer{background:var(--pe-dark);color:rgba(255,255,255,.75);text-align:center;padding:20px;font-size:.82rem;}
+  footer a{color:rgba(255,255,255,.9);text-decoration:none;}
+  @media(max-width:600px){
+    .site-header h1{font-size:1.6rem;}
+    .section{padding:32px 16px;}
+    .flip-grid{grid-template-columns:1fr 1fr;}
+    .position-grid{grid-template-columns:1fr;}
+    .person-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div style="background:#23253a;padding:10px 20px;display:flex;align-items:center;gap:10px;">
+  <a href="https://isaac-math.github.io/Faith_Reason/" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:4px 12px;">← 전체 시리즈</a>
+  <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
+  <a href="index.html" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:4px 12px;">🏠 홈으로</a>
+  <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
+  <span style="color:rgba(255,255,255,.7);font-size:.82rem;">고난과 악의 문제 — 대학생 버전</span>
+</div>
+
+<div class="site-header">
+  <h1>🕯️ 고난과 악의 문제</h1>
+  <p>철학적 신론, 성경 주해, 목회적 실천이 교차하는 지점에서<br>고난과 악의 문제를 학술적으로, 그리고 정직하게 탐구합니다.</p>
+  <span class="level-badge">대학생 버전</span>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#s0" class="active" onclick="setActive(this)">소개</a>
+    <a href="#s1" onclick="setActive(this)">문제의 정식화</a>
+    <a href="#s2" onclick="setActive(this)">자유의지 변론</a>
+    <a href="#s3" onclick="setActive(this)">영혼 형성</a>
+    <a href="#s4" onclick="setActive(this)">회의적 유신론</a>
+    <a href="#s5" onclick="setActive(this)">자연악과 진화</a>
+    <a href="#s6" onclick="setActive(this)">욥기 주해</a>
+    <a href="#s7" onclick="setActive(this)">탄식 전통</a>
+    <a href="#s8" onclick="setActive(this)">십자가</a>
+    <a href="#s9" onclick="setActive(this)">문학과 종말론</a>
+    <a href="#s10" onclick="setActive(this)">뒤집어보기</a>
+    <a href="#s11" onclick="setActive(this)">목회적 실천</a>
+    <a href="#s12" onclick="setActive(this)">주요학자</a>
+    <a href="#s13" onclick="setActive(this)">용어사전</a>
+    <a href="#s14" onclick="setActive(this)">토론</a>
+    <a href="#s15" onclick="setActive(this)">레퍼런스</a>
+  </div>
+</nav>
+
+<!-- S0 도입 -->
+<section id="s0" class="section">
+<div class="section-title">소개 — 두 개의 문제</div>
+<p class="section-sub">지적 문제와 실존적 문제를 구별하는 것 자체가 이 자료의 방법론입니다.</p>
+
+<div class="care-box">
+  <strong>지금 깊은 상실 가운데 있다면,</strong> 이 자료는 철학·신학 학습 자료이지 응급처치가 아닙니다. 지금 필요한 것은 정교한 논증이 아니라 곁에 있어줄 사람일 수 있습니다. 신뢰할 수 있는 어른, 목회자, 또는 전문 상담사에게 연락하는 것을 망설이지 마세요.
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:12px;">두 개의 서로 다른 질문</p>
+  <p>철학자 니콜라스 월터스토프는 아들을 등반 사고로 잃은 뒤 쓴 『Lament for a Son』(1987)에서 이렇게 씁니다 — 슬픔은 논증으로 해소되지 않으며, 애도의 언어는 논리의 언어와 다른 문법을 갖습니다. 이 자료가 출발점으로 삼는 구별이 바로 이것입니다.</p>
+  <div class="highlight-box">
+    <strong>지적 문제(intellectual problem):</strong> "전능하고 선한 하나님과 악의 존재는 논리적으로 양립 가능한가?" — 3인칭으로 서술되는 논증의 문제.<br><br>
+    <strong>실존적 문제(existential problem):</strong> "왜 하필 나에게, 왜 하필 지금?" — 1인칭의 절규이며 논증으로 해소되지 않는 문제.
+  </div>
+  <p style="margin-top:12px;">이 구별을 놓치면 두 가지 실패가 일어납니다. 지적 문제에 대한 답을 실존적 고통 앞에서 들이미는 실패(욥의 친구들의 실패), 그리고 실존적 고통 때문에 지적 문제를 정직하게 다루기를 포기하는 실패입니다. 이 자료는 양쪽 실패를 모두 피하려 합니다.</p>
+</div>
+
+<div class="warn-box">
+  <strong>이 자료가 하지 않는 것:</strong> 어떤 신정론(theodicy)도 고통의 완결된 정당화로 제시하지 않습니다. 성경 자체가 욥기 38-41장에서 설명이 아니라 현현(theophany)과 동행으로 응답하는 구조를 취하기 때문입니다.
+</div>
+
+<p style="margin-top:14px;font-size:.93rem;color:var(--muted);"><strong>로드맵:</strong> 문제의 정식화(S1) → 철학적 응답들(S2-S4) → 자연악과 진화(S5) → 성경의 응답(S6-S7) → 십자가와 종말론(S8-S9) → 논증의 재검토(S10) → 목회적 실천(S11) → 학자·용어·토론·레퍼런스(S12-S15).</p>
+</section>
+
+<!-- S1 문제의 정식화 -->
+<section id="s1" class="section">
+<div class="section-title">문제의 정식화 — 정확하게 묻기</div>
+<p class="section-sub">에피쿠로스의 오래된 트릴레마부터 현대의 논리적·증거적 정식화까지.</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('s1','s1t1',this)">에피쿠로스 트릴레마</button>
+  <button class="tab-btn" onclick="switchTab('s1','s1t2',this)">논리적 문제</button>
+  <button class="tab-btn" onclick="switchTab('s1','s1t3',this)">증거적 문제</button>
+  <button class="tab-btn" onclick="switchTab('s1','s1t4',this)">인접 문제</button>
+</div>
+<div id="s1t1" class="tab-panel active">
+  <div class="card">
+    <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">고대의 정식화</p>
+    <p>락탄티우스(Lactantius)의 『De Ira Dei』(BC 4세기 초)를 통해 전승된 형태로, 흔히 에피쿠로스(BC 341-270)에게 귀속되는 트릴레마는 다음과 같습니다: "신은 악을 막으려 하지만 할 수 없는가? 그렇다면 무능하다. 할 수 있지만 막으려 하지 않는가? 그렇다면 악하다. 막을 능력과 의지가 모두 있는가? 그렇다면 악은 왜 존재하는가?"</p>
+    <div class="info-box">이 정식화가 역사적으로 실제 에피쿠로스에게서 유래했는지는 문헌학적으로 논쟁이 있으나, 문제의 구조 자체는 이후 모든 논의의 뼈대가 되었습니다.</div>
+  </div>
+</div>
+<div id="s1t2" class="tab-panel">
+  <div class="card">
+    <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">매키(J.L. Mackie)의 논리적 문제 (1955)</p>
+    <p>매키는 "Evil and Omnipotence"(<em>Mind</em> 64, 1955: 200-212)에서 다음 세 명제가 논리적으로 동시에 참일 수 없다고 주장합니다:</p>
+    <ul style="padding-left:18px;margin:10px 0;line-height:2;">
+      <li>① 하나님은 전능하다(omnipotent)</li>
+      <li>② 하나님은 전선하다(wholly good)</li>
+      <li>③ 악이 존재한다</li>
+    </ul>
+    <p>매키에 따르면, 전능하고 전선한 존재는 악을 없앨 능력과 의지를 모두 가지므로, 이 세 명제를 동시에 긍정하는 유신론자는 명시적이지는 않지만 암묵적으로 모순을 안고 있습니다. 이것이 "논리적 문제(logical problem of evil)"입니다.</p>
+  </div>
+</div>
+<div id="s1t3" class="tab-panel">
+  <div class="card">
+    <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">로우(William Rowe)의 증거적 문제 (1979)</p>
+    <p>로우는 "The Problem of Evil and Some Varieties of Atheism"(<em>American Philosophical Quarterly</em> 16, 1979: 335-341)에서 논리적 모순이 아니라 개연성(probability)에 근거한 논증을 제시합니다. 유명한 "새끼 사슴 사례": 산불에 갇혀 서서히 불에 타 죽어가는 새끼 사슴의 고통은, 그것을 통해 더 큰 선이 이루어진다거나 그보다 나쁜 악을 막는다는 어떤 목적도 발견할 수 없어 보입니다.</p>
+    <div class="highlight-box">
+      <strong>로우의 논증 구조:</strong><br>
+      전제1. 더 큰 선을 잃지 않고, 또는 그만큼 나쁘거나 더 나쁜 악을 허용하지 않고서는 전능·전지한 존재가 막을 수 없었을 것 같은 극심한 고통 사례들이 존재한다.<br>
+      전제2. 전능·전지·전선한 존재는 더 큰 선을 잃거나 그만큼 나쁜 악을 허용하지 않는 한 어떤 극심한 고통도 허용하지 않을 것이다.<br>
+      결론. 따라서 전능·전지·전선한 존재는 존재하지 않는다(개연적으로).
+    </div>
+    <p style="margin-top:10px;">이 논증은 절대적 증명이 아니라 개연성 논증이라는 점이 중요합니다 — "그럴듯한 근거로 보인다"는 것이지 "논리적으로 필연적"이라는 것이 아닙니다.</p>
+  </div>
+</div>
+<div id="s1t4" class="tab-panel">
+  <div class="card">
+    <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">인접 문제 (소개만)</p>
+    <p><strong>신적 은폐성(Divine Hiddenness):</strong> J.L. 쉘렌버그(Schellenberg)가 『Divine Hiddenness and Human Reason』(1993)에서 제기한 문제로, "왜 완전히 사랑하는 신은 비저항적 불신자(nonresistant nonbeliever)들에게 자신을 명백히 드러내지 않는가"를 묻습니다. 악의 문제와 논리 구조가 유사합니다.</p>
+    <p style="margin-top:10px;"><strong>지옥의 문제:</strong> 영원한 형벌 교리와 하나님의 선하심의 양립 가능성 문제. 이 자료의 범위 밖이나, 악의 문제와 개념적으로 연결됩니다.</p>
+    <table style="width:100%;border-collapse:collapse;margin-top:14px;font-size:.88rem;">
+      <tr style="border-bottom:2px solid var(--pe-xlight);"><th style="text-align:left;padding:8px;color:var(--pe);">구분</th><th style="text-align:left;padding:8px;color:var(--pe);">도덕악</th><th style="text-align:left;padding:8px;color:var(--pe);">자연악</th></tr>
+      <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;">기원</td><td style="padding:8px;">자유의지의 오용</td><td style="padding:8px;">지진·질병·포식 등 자연 과정</td></tr>
+      <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;">대표 응답</td><td style="padding:8px;">자유의지 변론(S2)</td><td style="padding:8px;">법칙적 규칙성, only-way 논증(S5)</td></tr>
+      <tr><td style="padding:8px;">난점</td><td style="padding:8px;">초세계적 타락성 등 기술적 문제</td><td style="padding:8px;">인간 등장 이전의 동물 고통(S5)</td></tr>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- S2 자유의지 변론 -->
+<section id="s2" class="section">
+<div class="section-title">자유의지 변론 — 논리적 문제의 전환점</div>
+<p class="section-sub">플란팅가의 구별이 어떻게 논리적 문제의 전선을 이동시켰는가.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">변론(Defense) vs 신정론(Theodicy)</p>
+  <p>알빈 플란팅가는 『God, Freedom, and Evil』(1974)에서 결정적인 방법론적 구별을 도입합니다.</p>
+  <div class="highlight-box">
+    <strong>신정론:</strong> 하나님이 악을 허용하신 <em>실제</em> 이유를 제시하려는 시도.<br>
+    <strong>변론:</strong> 유신론이 논리적으로 정합적임을 보이기 위해, 하나님과 악이 양립 가능한 <em>가능한</em> 시나리오 하나만 제시하는 시도 — 그것이 실제 이유인지는 주장하지 않는다.
+  </div>
+  <p style="margin-top:10px;">이 구별의 지적 겸손이 중요합니다. 변론은 "이것이 답이다"라고 주장하지 않고, "적어도 이런 시나리오가 가능하므로 모순은 없다"고만 주장합니다. 매키의 논증을 반박하는 데는 이 정도로 충분합니다 — 모순 주장을 무너뜨리려면 논리적 가능성 하나만 있으면 되기 때문입니다.</p>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">자유의지 변론의 구조</p>
+  <p>구조는 단순합니다: 참된 도덕적 자유(significant freedom)를 가진 피조물을 만드는 것은 그 자유가 잘못 사용될 가능성을 논리적으로 필연적으로 동반합니다. 강제로 항상 옳게만 행동하도록 만들어진 존재는 도덕적 자유가 없는 존재입니다. 따라서 전능하신 하나님도 "자유의지가 있으면서 절대 악을 선택하지 않는 세계"를 논리적으로 만드실 수 없습니다 — 이는 능력의 한계가 아니라 논리적 불가능성의 문제입니다.</p>
+  <div class="acc-item" style="margin-top:14px;">
+    <button class="acc-btn" onclick="toggleAcc(this)">초세계적 타락성(Transworld Depravity) <span class="arrow">▼</span></button>
+    <div class="acc-body">
+      <p>플란팅가가 도입한 기술적 개념으로, 모든 가능한 자유의지 소유자에게 "그가 어떤 상황에 놓이든 적어도 한 번은 잘못된 선택을 할" 속성이 있을 수 있다는 것입니다. 이것이 참이라면, 하나님이 "자유의지를 가지면서도 항상 옳게 행동하는 피조물만 있는 세계"를 창조하는 것은 그 세계가 형이상학적으로 가능한 세계 목록에 없을 수 있다는 뜻입니다. 이 개념은 많은 비판을 받았지만, 변론의 논리적 목적(가능성 하나 제시)에는 이 정도로 충분합니다.</p>
+    </div>
+  </div>
+</div>
+
+<div class="success-box">
+  <strong>학계의 판정:</strong> 플란팅가의 자유의지 변론 이후, 논리적 문제(모순 주장)는 철학계에서 대체로 "해소되었다"는 평가를 받습니다. 흥미롭게도 무신론 철학자 윌리엄 로우조차 "논리적 문제는 이제 대부분의 철학자들 사이에서 해결된 것으로 간주된다"고 인정한 바 있습니다. 그 결과 전장은 증거적 문제로 이동했습니다.
+</div>
+
+<p style="margin-top:14px;font-size:.9rem;color:var(--muted);"><strong>남는 질문:</strong> 자유의지 변론은 도덕악(사람이 선택한 악)은 설명하지만, 지진이나 질병 같은 자연악은 어떻게 되는가? 이 질문은 S5에서 본격적으로 다룹니다.</p>
+</section>
+
+<!-- S3 영혼 형성 신정론 -->
+<section id="s3" class="section">
+<div class="section-title">영혼 형성 신정론과 그 한계</div>
+<p class="section-sub">힉의 이레니우스적 신정론 — 강점과, 참혹악 앞에서의 실패.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">존 힉(John Hick)의 이레니우스 전통 재발굴</p>
+  <p>힉은 『Evil and the God of Love』(1966)에서 아우구스티누스적 전통(타락으로 인한 완전성의 상실)과 대비되는 이레니우스적 전통을 재발굴합니다. 인간은 처음부터 완성된 존재로 창조된 것이 아니라, 완성을 향해 성장해가는 미성숙한 존재로 창조되었다는 것입니다.</p>
+  <div class="highlight-box">
+    <strong>인식적 거리(Epistemic Distance):</strong> 하나님이 인간에게서 일정한 인식적 거리를 두신 것은 결함이 아니라 설계입니다. 하나님의 존재가 논박 불가능할 만큼 명백하다면, 인간의 응답은 자유로운 신앙이 아니라 강제된 인정이 될 것입니다. 이 거리 덕분에 진짜 믿음과 영적 성장이 가능해집니다.
+  </div>
+  <p style="margin-top:10px;"><strong>덕은 시련 없이 형성되지 않는다:</strong> 용기, 인내, 연민 같은 덕목은 안락한 환경에서는 발달할 수 없습니다. 고난이 있는 세계는 "영혼 형성(soul-making)"의 학교이며, 이것이 왜 하나님이 고통 없는 낙원 대신 도전이 있는 세계를 창조하셨는지를 설명합니다.</p>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">강점: 진화적 세계관과의 정합</p>
+  <p>영혼 형성 신정론은 진화적 창조론(EC)의 세계관과 자연스럽게 공명합니다. 창조가 완성된 상태로 단번에 주어진 것이 아니라 과정(process)이라면, 성장과 발전이라는 서사 자체가 창조 이야기의 일부가 됩니다. 진화의 점진성과 영혼 형성의 점진성은 같은 문법을 공유합니다.</p>
+</div>
+
+<div class="warn-box">
+  <strong>비판을 정면으로:</strong> D.Z. 필립스(D.Z. Phillips)는 아우슈비츠 같은 참혹악(horrendous evil) 앞에서 이 신정론이 붕괴한다고 지적합니다. 가스실에서 죽어간 아이의 고통이 "영혼 형성 커리큘럼"의 일부라는 설명은 그 자체로 도덕적으로 혐오스럽습니다. 도스토옙스키의 이반 카라마조프(S9)가 던지는 질문도 본질적으로 같습니다 — 아이의 눈물이 성장의 대가라면, 그 거래 자체를 거부해야 하지 않는가?
+</div>
+
+<div class="acc-item">
+  <button class="acc-btn" onclick="toggleAcc(this)">애덤스(Marilyn McCord Adams)의 대안 — 참혹악과 하나님과의 연합 <span class="arrow">▼</span></button>
+  <div class="acc-body">
+    <p>매릴린 매코드 애덤스는 『Horrendous Evils and the Goodness of God』(1999)에서 참혹악(horrendous evils) — 겪는 사람의 삶 전체를 무의미하게 만들어버릴 것 같은 극단적 악 — 은 "전체 선의 계산(균형 잡기)"으로는 다뤄질 수 없다고 주장합니다. 대신 그녀는 참혹악이 결국 <strong>하나님과의 인격적 연합(personal, intimate relation with God)</strong> 안에서 "삼켜진다(defeated)"는 대안을 제시합니다. 이는 악을 정당화하는 것이 아니라, 악을 압도할 만큼 큰 선(하나님과의 연합) 안에 그 악의 의미가 재배치된다는 것입니다.</p>
+  </div>
+</div>
+</section>
+
+<!-- S4 회의적 유신론 -->
+<section id="s4" class="section">
+<div class="section-title">회의적 유신론 — 우리는 판정할 위치에 있는가</div>
+<p class="section-sub">위크스트라의 CORNEA 원리와 욥기 38장의 공명.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">CORNEA 원리 (Wykstra, 1984)</p>
+  <p>스티븐 위크스트라는 "The Humean Obstacle to Evidential Arguments from Suffering"(<em>International Journal for Philosophy of Religion</em> 16, 1984: 73-93)에서 로우의 증거적 논증에 대한 핵심 반론을 제시합니다. 그는 이를 CORNEA(Condition Of ReasoNable Epistemic Access)라 부릅니다.</p>
+  <div class="highlight-box">
+    <strong>핵심 원리:</strong> "이유가 보이지 않는다(no reason is apparent)"에서 "이유가 없다(there is no reason)"로 추론하려면, 만약 이유가 있었다면 우리가 그것을 볼 수 있었으리라는 것을 전제해야 합니다. 그런데 무한하고 전지한 존재의 목적이 유한한 인간에게 항상 파악 가능하리라고 기대할 근거가 있는가?
+  </div>
+  <p style="margin-top:10px;">비유: 6개월 된 강아지가 주인이 특정 순간에 왜 그런 행동을 하는지 이해하지 못한다고 해서, 주인에게 이유가 없다고 결론 내릴 수는 없습니다. 인간과 하나님의 인식적 격차는 이보다 훨씬 클 수 있습니다.</p>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">욥기 38-41장과의 공명</p>
+  <p>흥미롭게도 이 철학적 논증은 성경 본문 자체의 구조와 정확히 공명합니다. 하나님이 욥에게 하시는 답변의 핵심은 "네가 땅의 기초를 놓을 때에 어디 있었느냐"(욥 38:4)는 질문들의 연속입니다. 이는 곧 "너는 창조 전체의 설계를 파악할 수 있는 인식적 위치에 있는가?"라는 CORNEA적 물음입니다. ECO(기독교 생태신학) 시리즈의 욥기 주해가 이 지점과 직결됩니다.</p>
+</div>
+
+<div class="warn-box">
+  <strong>비판도 정직하게:</strong> 회의적 유신론에 대한 가장 심각한 우려는 <strong>도덕적 마비(moral paralysis)</strong>입니다. 모든 악에 "우리가 모르는 숨은 이유가 있을 것"이라는 카드를 쓸 수 있다면, 악에 맞서 싸울 동기 자체가 침식되지 않는가? 아동 학대를 목격하고도 "하나님의 숨은 목적이 있을지 모른다"며 개입하지 않는 것이 정당화될 위험이 있습니다.
+</div>
+<div class="success-box">
+  <strong>응답:</strong> 이 비판에 대한 표준적 응답은 <strong>아는 의무</strong>와 <strong>모르는 섭리</strong>를 구별하는 것입니다. 성경은 악과 싸우라는 계시된 뜻(선을 행하고 정의를 구하라, 미 6:8)을 분명히 하는 동시에, 특정 사건의 숨겨진 신적 목적에 대해서는 침묵합니다. 회의적 유신론은 후자(형이상학적 겸손)를 말하는 것이지, 전자(윤리적 행동 의무)를 면제하는 것이 아닙니다.
+</div>
+</section>
+
+<!-- S5 자연악과 진화 -->
+<section id="s5" class="section">
+<div class="section-title">자연악과 진화 — 이 시리즈의 학술 차별점</div>
+<p class="section-sub">인간 등장 이전 수억 년의 포식과 고통을 신학적으로 어떻게 다룰 것인가.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">문제의 첨예화 — 다윈의 이크네우몬 말벌</p>
+  <p>찰스 다윈은 1860년 5월 22일 식물학자 아사 그레이(Asa Gray)에게 보낸 편지에서 이렇게 씁니다: "이크네우몬 말벌이 애벌레의 살아있는 몸속에서 먹으려는 명확한 의도로 그 안에 알을 낳도록 자비롭고 전능하신 하나님이 설계하셨다는 것을 나 자신은 납득할 수 없습니다." 이 편지는 자연악 문제의 첨예한 버전을 보여줍니다 — 인간의 도덕적 선택과 전혀 무관하게, 인간이 존재하기 수억 년 전부터 포식·기생·멸종이 자연 질서의 일부였다는 사실입니다. "타락 이전 사망(death before the Fall)" 문제는 EC(진화적 창조) 시리즈에서 다뤄진 논의를 전제로 합니다.</p>
+</div>
+
+<div class="acc-item">
+  <button class="acc-btn" onclick="toggleAcc(this)">사우스게이트(Christopher Southgate)의 3중 구조 <span class="arrow">▼</span></button>
+  <div class="acc-body">
+    <p>크리스토퍼 사우스게이트는 『The Groaning of Creation: God, Evolution, and the Problem of Evil』(2008)에서 "복합적 only-way 진화신정론(compound only-way evolutionary theodicy)"을 제시합니다:</p>
+    <ul style="padding-left:18px;margin:8px 0;line-height:2;">
+      <li><strong>Only-way 논증:</strong> 생명의 놀라운 다양성과 가치(자유, 아름다움, 복잡성)를 만들어내는 데 자연선택을 통한 진화 외에 다른 길이 없었을 가능성 — 진화의 "비효율성과 낭비"처럼 보이는 과정 자체가 창조성의 필요조건이라는 것.</li>
+      <li><strong>하나님의 공동 고난(co-suffering):</strong> 하나님은 진화 과정의 고통 바깥에 계시지 않고, 그 고통을 함께 겪으신다.</li>
+      <li><strong>동물 종말론:</strong> 구속의 범위가 인간을 넘어 모든 피조물로 확장된다는 종말론적 소망 — 진화 과정에서 고통받은 개별 피조물들도 궁극적으로 회복된다는 것.</li>
+    </ul>
+  </div>
+</div>
+<div class="acc-item">
+  <button class="acc-btn" onclick="toggleAcc(this)">머레이(Michael Murray)의 동물 고통 분석 <span class="arrow">▼</span></button>
+  <div class="acc-body">
+    <p>마이클 머레이는 『Nature Red in Tooth and Claw: Theism and the Suffering of Non-Human Animals』(2008)에서 동물 고통의 철학적 분석을 신경생리학적 논의와 함께 제시합니다. 동물이 인간과 같은 방식으로 고통을 "의식적으로 경험"하는지에 대한 신중한 논의를 포함하되(이는 여전히 논쟁적인 영역입니다), 동물 고통이 실재한다는 것 자체를 부정하지 않으면서 신학적 대응을 모색합니다.</p>
+  </div>
+</div>
+<div class="acc-item">
+  <button class="acc-btn" onclick="toggleAcc(this)">폴킹혼의 free-process defense <span class="arrow">▼</span></button>
+  <div class="acc-body">
+    <p>존 폴킹혼(John Polkinghorne)은 자유의지 변론의 자연 과정 확장판으로 "free-process defense"를 제시합니다. 하나님이 피조물에게 도덕적 자유를 주신 것처럼, 자연 세계에도 그 자체의 법칙에 따라 "스스로 되어가는(self-making)" 자유를 주셨다는 것입니다. 돌연변이와 자연선택이 새로운 생명 형태를 만들어내는 창조적 과정인 동시에, 필연적으로 고통과 죽음을 동반합니다.</p>
+  </div>
+</div>
+
+<div class="highlight-box">
+  <strong>법칙적 규칙성의 가치:</strong> S3(청소년 버전)의 학술판입니다. 안정된 자연법칙 없이는 행위의 결과를 예측할 수 없고, 과학도 신뢰도 불가능합니다. 지진을 일으키는 지각판 운동은 동시에 대기와 토양을 순환시켜 생명을 가능케 하는 바로 그 과정입니다. 법칙성의 대가와 혜택은 분리될 수 없습니다.
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">탄식하는 피조물 — 로마서 8:19-22와의 종합</p>
+  <p>바울은 로마서 8:19-22에서 "피조물이 다 이제까지 함께 탄식하며 함께 고통을 겪고 있는 것을" 이야기합니다. 이는 자연악을 하나님의 관심 밖에 있는 문제로 치부하지 않고, 오히려 구속사의 일부로 편입시키는 신학적 종합을 제공합니다. 진화 과정의 고통은 마지막 말이 아니라, 그 자체가 회복을 기다리는 탄식이라는 것입니다. <a href="https://isaac-math.github.io/Eco-Theology/" style="color:var(--pe);font-weight:600;">「기독교 생태신학」(ECO)</a> 시리즈가 이 본문을 더 깊이 다룹니다.</p>
+</div>
+</section>
+
+<!-- S6 욥기 주해 -->
+<section id="s6" class="section">
+<div class="section-title">성경의 응답 1 — 욥기 주해</div>
+<p class="section-sub">장르 인식이 해석을 좌우한다 — 산문 액자와 운문 논쟁의 긴장.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">구조 분석</p>
+  <p>욥기는 두 개의 서로 다른 장르가 하나의 책 안에 공존합니다. <strong>산문 액자(1-2장, 42장)</strong>는 이야기체로 서술되며, 하늘 회의 장면과 결말의 회복을 담습니다. <strong>운문 논쟁(3-41장)</strong>은 욥과 세 친구, 엘리후, 그리고 하나님의 시적 담화로 구성됩니다. 이 두 장르 사이의 긴장 — 산문의 "인내하는 욥"과 운문의 "따져 묻는 욥" — 을 어떻게 읽을지가 해석의 출발점입니다. 장르를 무시하고 읽으면 욥기의 메시지 전체가 왜곡됩니다.</p>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">친구들의 신학 — 인과응보 신학의 실패</p>
+  <p>욥의 세 친구(엘리바스, 빌닷, 소발)의 신학은 엄격한 인과응보(retribution theology)입니다 — 고난은 죄의 결과이므로, 욥이 고난받는다면 욥에게 숨겨진 죄가 있다는 논리입니다. 이는 신명기 신학(순종→복, 불순종→화)의 기계적 적용입니다.</p>
+  <div class="warn-box">문제는 이 신학이 <em>부분적으로만</em> 참이라는 것입니다. 인과응보의 원리가 일반적으로 작동할 때가 있지만, 그것을 모든 개별 사례에 예외 없이 적용하는 순간 신학적 폭력이 됩니다.</div>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">42:7 — 하나님의 판결</p>
+  <div class="verse-card">"너희가 나를 가리켜 말한 것이 내 종 욥의 말 같이 옳지 못함이니라"<span class="verse-ref">— 욥기 42:7 (개역개정)</span></div>
+  <p>이 판결은 정경 전체에서 매우 대담한 선언입니다. 신학적으로 "옳게" 들렸던 친구들의 말이 틀렸다고 선언되고, 하나님께 격렬히 항의했던 욥의 말이 오히려 "옳다"고 인정됩니다. 이는 정직한 항의가 경건해 보이는 상투어(pious cliché)보다 하나님 앞에서 더 낫다는 정경적 선언입니다.</p>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">38-41장 — 설명 대신 현현</p>
+  <p>하나님의 답변은 주목할 만한 방식으로 구성됩니다. 욥이 제기한 "왜 나에게?"라는 질문에 대한 직접적 설명은 단 한 줄도 없습니다. 대신 하나님은 창조 세계의 광대함과 정교함을 보여주는 일련의 수사적 질문("네가 땅의 기초를 놓을 때에 어디 있었느냐", 38:4)을 던지십니다. 이 답변의 <strong>장르</strong> 자체가 메시지입니다 — 정보 전달이 아니라 관계적 만남(theophany, 현현)이라는 것입니다.</p>
+  <div class="highlight-box">42:5 — "내가 주께 대하여 귀로 듣기만 하였사오나 이제는 눈으로 주를 뵈옵나이다." 욥은 설명을 얻은 것이 아니라, 하나님을 만난 것입니다. 이것이 그를 회복시킨 것의 핵심입니다.</div>
+</div>
+
+<div class="success-box">
+  <strong>욥기가 주는 것 / 주지 않는 것:</strong> 욥기는 "왜 이런 일이 일어나는가"에 대한 철학적 답을 주지 않습니다. 대신 ① 정직한 항의가 허용되고 심지어 칭찬받는다는 것 ② 손쉬운 신학적 설명이 때로 틀릴 수 있다는 것 ③ 결국 필요한 것은 설명이 아니라 하나님과의 만남이라는 것을 줍니다.
+</div>
+</section>
+
+<!-- S7 탄식의 전통 -->
+<section id="s7" class="section">
+<div class="section-title">성경의 응답 2 — 탄식의 전통</div>
+<p class="section-sub">시편의 최대 장르, 그리고 어둠으로 끝나는 유일한 시.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">탄식시의 문법</p>
+  <p>통계적으로 시편에서 가장 많은 장르는 찬양시가 아니라 <strong>탄식시(lament)</strong>입니다 — 전체의 약 3분의 1을 차지합니다. 개인 탄식시는 일반적으로 다음 문법을 따릅니다: <strong>호소(주여, 들으소서)</strong> → <strong>불평(어찌하여 나를 버리셨나이까)</strong> → <strong>간구(나를 건지소서)</strong> → <strong>신뢰로의 전환(그러나 나는 주를 의지하리이다)</strong>. 시편 13편이 이 구조의 교과서적 사례입니다 — 1-2절의 격렬한 불평("어느 때까지니이까")이 5-6절에 이르러 "나는 주의 인자하심을 의지하였사오니"라는 신뢰의 고백으로 전환됩니다.</p>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">시편 88 — 어둠으로 끝나는 유일한 시</p>
+  <p>시편 88편은 예외적입니다. 다른 모든 탄식시가 결국 신뢰나 찬양으로 전환되는 것과 달리, 88편은 끝까지 어둠 속에 머뭅니다. 마지막 구절(18절)의 히브리어 원문은 문자 그대로 "<span class="heb">מַחְשָׁךְ</span>(마흐샤크, 어둠)"라는 단어로 끝납니다 — 개역개정은 "주는 내 사랑하는 자와 친구를 내게서 멀리 떠나게 하시며 내가 아는 자를 흑암에 두셨나이다"로 옮깁니다.</p>
+  <div class="highlight-box">
+    <strong>정경적 의미:</strong> 성경의 편집자들이 "해피엔딩 없는 기도"를 정경 안에 그대로 보존했다는 것은 중요한 목회적 함의를 갖습니다. 모든 기도가 신앙고백적 전환으로 끝나야 한다는 압박이 성경 자체에는 없습니다. 어둠 속에서 끝나는 기도도 진짜 기도이며, 정경은 그것을 검열하지 않았습니다.
+  </div>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">애가, 하박국, 예레미야의 고백록</p>
+  <p><strong>예레미야 애가</strong>는 예루살렘 함락(BC 586)이라는 국가적 대참사 직후에 기록된 시집입니다. 그 한가운데, 애가 3:22-23("여호와의 인자와 긍휼이 무궁하시므로 우리가 진멸되지 아니함이니이다 이것들이 아침마다 새로우니")의 소망 고백이 등장합니다. 중요한 것은 그 소망이 고난과 분리된 낙관이 아니라, <strong>잿더미 한가운데(3장 전체의 폐허 묘사 사이)</strong>에 박혀 있다는 위치입니다.</p>
+  <p style="margin-top:10px;"><strong>하박국</strong>은 하나님께 정의를 따지는 예언자적 항의로 시작해("어찌하여 나로 참혹한 일을 보게 하시나이까", 1:3), 결국 "비록 무화과나무가 무성하지 못하며... 나는 여호와로 말미암아 즐거워하며"(3:17-18)라는 고백에 이릅니다. <strong>예레미야의 고백록(렘 20장)</strong>은 예언자 자신이 "여호와여 주께서 나를 권유하시므로 내가 그 권유를 받았사오며"(20:7)로 시작해 자신의 태어난 날을 저주하는 지점(20:14-18)까지 나아가는, 성경에서 가장 격렬한 인간적 항의 중 하나입니다.</p>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">브루그만 — 탄식 상실의 대가</p>
+  <p>월터 브루그만은 "The Costly Loss of Lament"(<em>Journal for the Study of the Old Testament</em> 36, 1986: 57-71)에서 탄식을 <strong>언약적 항의(covenantal protest)</strong>로 규정합니다. 탄식은 하나님과의 관계가 깨졌다는 신호가 아니라, 그 관계를 진지하게 여기기 때문에 가능한 발화입니다. 브루그만은 현대 교회가 예배에서 탄식을 상실했다고 지적합니다 — 찬양 목록이 온통 긍정과 승리의 언어로만 채워질 때, 교회는 회중에게 암묵적으로 "탄식할 자격이 없다"는 거짓 긍정(false innocence)을 강요하게 됩니다.</p>
+</div>
+</section>
+
+<!-- S8 십자가 -->
+<section id="s8" class="section">
+<div class="section-title">십자가 — 하나님의 응답</div>
+<p class="section-sub">고난당하실 수 있는 하나님인가, 흔들리지 않는 사랑인가.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">몰트만 — 십자가에 달리신 하나님</p>
+  <p>위르겐 몰트만은 『십자가에 달리신 하나님』(<em>Der gekreuzigte Gott</em>, 1972; 영역 <em>The Crucified God</em>, SCM, 1974; 김균진 역, 대한기독교서회)에서 십자가를 신론의 중심으로 옮겨 놓습니다. 그의 도발적인 주장은 이것입니다 — "고난당할 수 없는 하나님은 사랑할 수 없는 하나님이다." 사랑은 본질적으로 타자의 상태에 영향받을 수 있는 능력(수용성)을 전제하는데, 완전히 고난당할 수 없는 존재는 완전히 사랑할 수도 없다는 논리입니다. 몰트만에게 십자가는 하나님이 인간의 고통 바깥에서 관망하시는 것이 아니라, 성자의 죽음 안으로 직접 들어오신 사건입니다.</p>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">균형 — 무감수성 교리의 진의</p>
+  <p>토마스 와이낸디(Thomas Weinandy)는 『Does God Suffer?』(2000)에서 고전적 무감수성(impassibility) 교리를 공정하게 변호합니다. 그의 핵심 주장은, 무감수성이 하나님의 무감각이나 무관심을 의미하는 것이 아니라 <strong>흔들리지 않는 사랑의 충만함</strong>을 의미한다는 것입니다. 인간의 사랑은 결핍에서 나오는 감정에 좌우되지만, 하나님의 사랑은 이미 완전하기에 변덕스러운 감정 상태를 필요로 하지 않습니다.</p>
+  <table style="width:100%;border-collapse:collapse;margin-top:12px;font-size:.87rem;">
+    <tr style="border-bottom:2px solid var(--pe-xlight);"><th style="text-align:left;padding:8px;color:var(--pe);">몰트만 (수난설)</th><th style="text-align:left;padding:8px;color:var(--pe);">와이낸디 (무감수성)</th></tr>
+    <tr><td style="padding:8px;vertical-align:top;">사랑은 고난당할 수 있는 능력을 전제한다. 십자가는 하나님이 실제로 고통을 겪으신 사건이다.</td><td style="padding:8px;vertical-align:top;">무감수성은 무감각이 아니라 사랑의 완전성이다. 성육신하신 성자는 인성으로 고난당하시되, 신성은 그 사랑에서 흔들리지 않는다.</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">스토트 — 임마누엘 응답의 정점</p>
+  <p>존 스토트는 『그리스도의 십자가』(<em>The Cross of Christ</em>, 1986)에서 이렇게 씁니다: "고통의 세계 한복판에서, 고통에 초연한 신을 어떻게 예배할 수 있겠는가? 나는 십자가가 아니었다면 결코 하나님을 믿을 수 없었을 것이다." 그는 여러 불교 사원에서 눈을 감고 초연한 미소를 띤 부처상 앞에 섰던 경험을 이야기하며, 결국 못 박히고 찢기고 하나님께 버림받은 것 같은 고통 속에서 절규하는 십자가의 형상으로 돌아설 수밖에 없었다고 고백합니다. 이것이 그가 "이것이 나를 위한 하나님이다"라고 말하는 이유입니다.</p>
+  <div class="highlight-box">히 4:15 — "우리에게 있는 대제사장은 우리 연약함을 동정하지 못하실 이가 아니요 모든 일에 우리와 똑같이 시험을 받으신 이로되 죄는 없으시니라." 요 11:35의 우시는 예수님과 함께, 이 본문들은 "공감하시는 대제사장"이라는 기독론의 핵심 이미지를 형성합니다.</div>
+</div>
+</section>
+
+<!-- S9 문학의 반론과 종말론 -->
+<section id="s9" class="section">
+<div class="section-title">문학의 반론과 종말론적 소망</div>
+<p class="section-sub">이반 카라마조프의 반역 — 신정론 문학 최강의 반론을 정면으로 마주하다.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">도스토옙스키 — '반역'</p>
+  <p>표도르 도스토옙스키의 『카라마조프 가의 형제들』(1880) 중 이반 카라마조프가 동생 알료샤에게 말하는 '반역(Rebellion)' 장은 신정론에 대한 문학사 최강의 반론으로 꼽힙니다. 이반은 학대당해 죽은 아이들의 실제 신문 기사를 나열한 뒤 이렇게 묻습니다: 만약 우주의 조화가 단 한 아이의 씻을 수 없는 눈물을 대가로 요구한다면, 그 조화의 "입장권을 정중히 반납하겠다."</p>
+  <div class="warn-box">이 자료는 이반의 논증을 약화시키거나 서둘러 반박하지 않습니다. 이반의 항의는 도덕적으로 진지하며, 정직한 신학은 이것을 손쉽게 처리하려 해서는 안 됩니다.</div>
+  <p style="margin-top:10px;"><strong>소설 구조 자체가 주는 힌트:</strong> 흥미롭게도 도스토옙스키는 알료샤가 이반의 논증에 논리로 반박하게 하지 않습니다. 대신 소설 전체를 통해 알료샤의 응답은 <em>말이 아니라 입맞춤과 삶</em>입니다(이반의 '대심문관' 이야기 직후 알료샤가 이반에게 하는 침묵의 입맞춤 장면). 이는 이 자료가 반복해서 확인하는 패턴과 같습니다 — 참혹악 앞에서 최종 응답은 논증이 아니라 동행이라는 것.</p>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">종말론적 응답의 구조</p>
+  <div class="verse-card">"생각하건대 현재의 고난은 장차 우리에게 나타날 영광과 족히 비교할 수 없도다"<span class="verse-ref">— 로마서 8:18</span></div>
+  <p>바울의 이 선언과 계 21:4의 약속, 그리고 부활(<a href="https://isaac-math.github.io/Jesus-History/" style="color:var(--pe);font-weight:600;">「예수와 역사」(JH)</a> 크로스링크)과 새 창조(<a href="https://isaac-math.github.io/Eco-Theology/" style="color:var(--pe);font-weight:600;">ECO</a> 크로스링크)는 함께 종말론적 응답을 구성합니다. 중요한 것은 이것이 <strong>보상(compensation)</strong>이 아니라 <strong>회복과 변용(transformation)</strong>이라는 점입니다 — 애덤스의 '삼켜짐(defeat)' 개념(S3)과 연결됩니다. 고난이 잊혀지거나 상쇄되는 것이 아니라, 하나님과의 연합 안에서 그 의미 자체가 다시 놓이는 것입니다.</p>
+  <div class="highlight-box">고전 15:58 — "그러므로 내 사랑하는 형제들아 견실하며 흔들리지 말며 항상 주의 일에 더욱 힘쓰는 자들이 되라 이는 너희 수고가 주 안에서 헛되지 않은 줄을 앎이라." 종말론적 소망은 현재의 행동을 무의미하게 만들지 않고, 오히려 그것에 궁극적 의미를 부여합니다. (ECO 시리즈 S12와 동형의 논리)</div>
+</div>
+
+<div class="warn-box">
+  <strong>한계를 정직하게:</strong> 종말론은 "왜 애초에 이런 일이 있어야 했는가"를 설명하지 않습니다. 미래의 회복이 과거의 고통에 대한 지적 설명을 대신하지는 않습니다. 그러나 종말론은 "결국 무엇이 마지막 말인가"를 바꿉니다. 이것이 신정론의 논리적 설명과 종말론적 소망이 서로 다른 종류의 응답이라는 것을 보여줍니다.
+</div>
+</section>
+
+<!-- S10 뒤집기 -->
+<section id="s10" class="section">
+<div class="section-title">악의 문제 뒤집기 — 신중한 역공</div>
+<p class="section-sub">"악에서의 논증"이 무신론에도 부메랑이 될 수 있는가.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">숨은 전제 — 객관적 악의 존재론적 기반</p>
+  <p>악에서의 논증(로우, 매키)은 암묵적으로 "객관적 악"이 존재한다는 것을 전제합니다 — 새끼 사슴의 고통이 <em>정말로</em> 나쁘다는 것이 논증의 힘을 이룹니다. 그런데 순수하게 물리적인 우주 안에서 "나쁨(badness)"이라는 도덕적 성질은 어디에서 오는가? C.S. 루이스는 『순전한 기독교』에서 이 논점을 제시합니다 — 그가 무신론자였을 때 우주가 "불의하다"고 느꼈던 것 자체가, 정의라는 기준선(직선)을 이미 전제하고 있었다는 것입니다. "구부러진 막대(a crooked line)"라는 개념은 곧은 선에 대한 관념 없이는 성립할 수 없습니다. 이것이 도덕 실재론에서 유신론으로 향하는 역논증입니다.</p>
+</div>
+
+<div class="warn-box">
+  <strong>과신 경고:</strong> 이 논증은 고통을 1그램도 줄이지 않습니다. 철학적 반론으로서의 가치와, 고통 앞에서의 위로로서의 가치는 완전히 다른 문제입니다. 이 논증을 고난받는 사람 앞에서 "그러니 신이 있다"는 식으로 제시하는 것은 욥의 친구들의 실패를 반복하는 것입니다.
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">무신론의 설명 과제</p>
+  <p>만약 우주가 궁극적으로 무관심한 물리 과정이라면, "이것은 부당하다"는 분노 자체가 어떻게 정당화되는가? 이것은 무신론에 승리를 선언하는 논증이 아니라, 양쪽 세계관 모두 각자 설명해야 할 과제를 안고 있음을 보여주는 논증으로 신중하게 제시되어야 합니다.</p>
+  <table style="width:100%;border-collapse:collapse;margin-top:12px;font-size:.87rem;">
+    <tr style="border-bottom:2px solid var(--pe-xlight);"><th style="text-align:left;padding:8px;color:var(--pe);">비교 항목</th><th style="text-align:left;padding:8px;color:var(--pe);">유신론적 자원</th><th style="text-align:left;padding:8px;color:var(--pe);">무신론적 자원</th></tr>
+    <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;">의미</td><td style="padding:8px;">고난이 궁극적 서사 안에 위치</td><td style="padding:8px;">개인이 스스로 구성하는 의미</td></tr>
+    <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;">소망</td><td style="padding:8px;">종말론적 회복(계 21:4)</td><td style="padding:8px;">현세적 개선·연대의 희망</td></tr>
+    <tr><td style="padding:8px;">연대</td><td style="padding:8px;">공동 고난하시는 하나님(몰트만)</td><td style="padding:8px;">인간 상호 간의 공동체적 연대</td></tr>
+  </table>
+  <p style="margin-top:10px;font-size:.88rem;color:var(--muted);">이 표는 "승리 선언"이 아니라 자원 비교입니다 — 각 세계관이 고난 앞에서 제공하는 것이 무엇인지 정직하게 나열하는 것이 목적입니다.</p>
+</div>
+</section>
+
+<!-- S11 목회적 실천 -->
+<section id="s11" class="section">
+<div class="section-title">목회적 실천 — 동행의 기술</div>
+<p class="section-sub">지적 논증이 끝나는 자리에서, 무엇을 할 것인가.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">욥의 친구들에게 배우는 것</p>
+  <p>잘한 것: 욥 2:13 — 이레바지 못한 고통을 보고 밤낮 칠 일을 말없이 곁에 앉아 있었던 것. 망친 것: 입을 연 순간부터 시작된 설명 강박 — 그들은 침묵을 견디지 못하고 신학적 해설을 시작하면서 실패했습니다.</p>
+</div>
+
+<div class="compare-grid">
+  <div class="compare-card bad">
+    <div class="compare-label">하지 말아야 할 말</div>
+    <ul>
+      <li>"하나님이 다 뜻이 있어서 데려가셨어" — 섭리의 남용</li>
+      <li>"너보다 더 힘든 사람도 많아" — 고통의 서열화</li>
+      <li>"믿음이 부족해서 그런 거야" — 인과응보 신학의 재판</li>
+      <li>"시간이 약이야, 빨리 잊어" — 애도 과정의 재촉</li>
+    </ul>
+  </div>
+  <div class="compare-card good">
+    <div class="compare-label">해야 할 것</div>
+    <ul>
+      <li>현존 — 설명 없이 곁에 있기</li>
+      <li>실무적 돌봄 — 식사, 이동, 서류 같은 실질적 도움</li>
+      <li>장기 동반 — 애도에는 정해진 일정표가 없다</li>
+      <li>질문을 견디기 — "왜"라는 질문에 답을 강요당하지 않고 함께 머물기</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">루이스의 두 책 — 이론과 눈물</p>
+  <p>C.S. 루이스는 『고통의 문제』(<em>The Problem of Pain</em>, 1940; 홍성사)에서 고난에 대한 정교한 지적 변증을 제시합니다. 그런데 1960년 아내 조이 데이빗먼을 암으로 잃은 후, 그는 『헤아려 본 슬픔』(<em>A Grief Observed</em>, 1961; 홍성사)이라는 훨씬 더 날것의 일기를 씁니다 — 여기서 그는 자신이 이전에 썼던 이론들이 실제 상실 앞에서 얼마나 무력하게 느껴지는지 솔직히 토로합니다.</p>
+  <div class="highlight-box">같은 사람이 쓴 두 책의 대비는 이 자료 전체의 논지를 압축해서 보여줍니다 — 지적 이해와 실존적 경험은 서로 다른 층위이며, 하나가 다른 하나를 대체할 수 없습니다. 좋은 신학은 이 둘을 모두 존중합니다.</div>
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">공동체의 실천</p>
+  <p><strong>탄식 예배의 회복:</strong> 정기 예배 순서에 탄식시(시 88, 애가 등)를 낭독하거나 기도하는 시간을 마련하는 것 — 브루그만이 지적한 "탄식의 실종"에 대한 실천적 응답입니다.</p>
+  <p style="margin-top:10px;"><strong>애도자를 위한 소그룹 원칙:</strong> 조언보다 경청, 해결보다 동행, 일회성 방문보다 장기적 관심.</p>
+  <p style="margin-top:10px;"><strong>전문 상담과의 협력:</strong> 교회 공동체는 위로와 동행을 제공하지만, 전문적 심리 상담이나 의료적 개입을 대체하지 않습니다. 이 경계를 분명히 하는 것 자체가 성숙한 목회적 돌봄의 일부입니다.</p>
+</div>
+</section>
+
+<!-- S12 학자 카드 -->
+<section id="s12" class="section">
+<div class="section-title">주요학자</div>
+<p class="section-sub">고난과 악의 문제 논쟁을 이끌어온 9인의 학자들.</p>
+<div class="person-grid">
+  <div class="person-card">
+    <div class="person-emoji">🧩</div>
+    <div class="person-name">알빈 플란팅가</div>
+    <div class="person-role">Alvin Plantinga (b. 1932)</div>
+    <div class="person-work">『God, Freedom, and Evil』 (1974)</div>
+    <div class="person-desc">자유의지 변론의 정교화로 논리적 문제를 사실상 종결시켰다는 평가를 받는 분석철학자. 변론(defense)과 신정론(theodicy)의 구별을 도입해 이후 모든 논의의 방법론적 기준을 세웠다.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">📘</div>
+    <div class="person-name">존 힉</div>
+    <div class="person-role">John Hick (1922-2012)</div>
+    <div class="person-work">『Evil and the God of Love』 (1966)</div>
+    <div class="person-desc">이레니우스적 영혼 형성 신정론의 현대적 재정식화자. 인식적 거리와 도덕적 성장이라는 개념으로 진화적 세계관과 정합적인 신정론을 제시했다.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">💔</div>
+    <div class="person-name">매릴린 매코드 애덤스</div>
+    <div class="person-role">Marilyn McCord Adams (1943-2017)</div>
+    <div class="person-work">『Horrendous Evils and the Goodness of God』 (1999)</div>
+    <div class="person-desc">참혹악(horrendous evils) 개념을 정식화하고, 하나님과의 인격적 연합을 통한 '삼켜짐(defeat)'이라는 대안적 응답을 제시한 철학신학자.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">📖</div>
+    <div class="person-name">엘레오노어 스텀프</div>
+    <div class="person-role">Eleonore Stump (b. 1947)</div>
+    <div class="person-work">『Wandering in Darkness』 (2010)</div>
+    <div class="person-desc">서사적 접근(narrative approach)으로 고난의 문제를 다룬다. 욥기·아브라함과 이삭·삼손 등 성경 내러티브를 분석철학의 방법과 결합해 프란체스카식(Francis-type) 지식(체험적 앎)의 중요성을 강조한다.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">✝️</div>
+    <div class="person-name">위르겐 몰트만</div>
+    <div class="person-role">Jürgen Moltmann (1926-2024)</div>
+    <div class="person-work">『십자가에 달리신 하나님』 (1972)</div>
+    <div class="person-desc">십자가를 신론의 중심에 놓고 고난당하시는 하나님을 신학의 핵심으로 제시한 독일 조직신학자. 20세기 후반 신학에서 가장 영향력 있는 고난 신학자 중 한 명.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">🐟</div>
+    <div class="person-name">크리스토퍼 사우스게이트</div>
+    <div class="person-role">Christopher Southgate (b. 1953)</div>
+    <div class="person-work">『The Groaning of Creation』 (2008)</div>
+    <div class="person-desc">진화적 자연악 문제에 대한 '복합적 only-way 신정론'을 제시한 과학신학자. 동물 종말론과 하나님의 공동 고난 개념으로 EC 시리즈와 직결되는 논의를 전개한다.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">✍️</div>
+    <div class="person-name">C.S. 루이스</div>
+    <div class="person-role">C.S. Lewis (1898-1963)</div>
+    <div class="person-work">『고통의 문제』(1940) · 『헤아려 본 슬픔』(1961)</div>
+    <div class="person-desc">이론적 변증과 실존적 애도 일기를 모두 남긴 문학자·평신도 신학자. 두 책의 대비는 지적 이해와 체험적 슬픔의 관계를 보여주는 가장 유명한 사례다.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">😢</div>
+    <div class="person-name">니콜라스 월터스토프</div>
+    <div class="person-role">Nicholas Wolterstorff (b. 1932)</div>
+    <div class="person-work">『Lament for a Son』 (1987)</div>
+    <div class="person-desc">등반 사고로 아들을 잃은 뒤 쓴 애도 일기로 유명한 개혁주의 철학자. 논증의 언어와 애도의 언어가 다른 문법을 갖는다는 것을 몸소 보여주었다.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">⚖️</div>
+    <div class="person-name">J.L. 매키</div>
+    <div class="person-role">J.L. Mackie (1917-1981)</div>
+    <div class="person-work">"Evil and Omnipotence" (1955)</div>
+    <div class="person-desc">논리적 문제를 현대적으로 정식화한 무신론 철학자. 회의 진영의 대표 논증으로서 이후 모든 신정론·변론 논의의 출발점이 되었다 — 공정성의 표지로 이 자료에 포함된다.</div>
+  </div>
+</div>
+<p style="margin-top:16px;font-size:.85rem;color:var(--muted);">※ 윌리엄 로우(William Rowe)의 증거적 문제 논증은 S1 본문에서 충분히 다루었으므로 별도 카드에서는 생략합니다.</p>
+</section>
+
+<!-- S13 용어사전 -->
+<section id="s13" class="section">
+<div class="section-title">용어사전</div>
+<p class="section-sub">고난과 악의 문제 논의에서 필수적으로 알아야 할 학술 용어들.</p>
+<div class="card" style="padding:0 28px;">
+  <div class="gloss-item" style="padding-top:20px;">
+    <div class="gloss-term">신정론</div>
+    <div class="gloss-orig">Theodicy</div>
+    <div class="gloss-def">하나님이 악을 허용하신 실제 이유를 제시하려는 시도. 어원은 그리스어 theos(신)+dike(정의) — "신의 정의를 옹호함."</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">변론</div>
+    <div class="gloss-orig">Defense</div>
+    <div class="gloss-def">플란팅가의 구별. 실제 이유가 아니라, 유신론이 논리적으로 정합적임을 보이는 가능한 시나리오 하나만 제시하는 시도.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">논리적 문제 / 증거적 문제</div>
+    <div class="gloss-orig">Logical Problem / Evidential Problem of Evil</div>
+    <div class="gloss-def">논리적 문제는 신 존재와 악의 존재가 모순이라는 주장(매키). 증거적 문제는 모순은 아니되 악의 규모·분포가 신 존재의 개연성을 낮춘다는 주장(로우).</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">에피쿠로스 트릴레마</div>
+    <div class="gloss-orig">Epicurean Trilemma</div>
+    <div class="gloss-def">락탄티우스의 전승을 통해 알려진 고대의 정식화. 신의 능력·의지·악의 존재 세 가지가 함께 성립하기 어렵다는 구조를 처음 제기했다.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">도덕악 / 자연악</div>
+    <div class="gloss-orig">Moral Evil / Natural Evil</div>
+    <div class="gloss-def">도덕악은 자유의지를 가진 존재의 선택에서 비롯되는 악(살인, 거짓말). 자연악은 지진·질병·포식처럼 도덕적 행위자의 선택과 무관한 고통.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">초세계적 타락성</div>
+    <div class="gloss-orig">Transworld Depravity</div>
+    <div class="gloss-def">플란팅가의 기술적 개념. 모든 자유의지 소유자가 어떤 가능세계에 놓이든 적어도 한 번은 잘못된 선택을 하게 되는 속성. 자유의지 변론의 논리적 정합성을 뒷받침한다.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">영혼 형성</div>
+    <div class="gloss-orig">Soul-Making</div>
+    <div class="gloss-def">존 힉이 재정식화한 이레니우스적 개념. 고난이 도덕적·영적 성숙을 위한 필수 조건이라는 신정론적 논지.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">인식적 거리</div>
+    <div class="gloss-orig">Epistemic Distance</div>
+    <div class="gloss-def">하나님의 존재가 논박 불가능할 만큼 명백하지 않은 상태. 힉에 따르면 이 거리 덕분에 자유롭고 진정한 신앙이 가능해진다.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">참혹악</div>
+    <div class="gloss-orig">Horrendous Evils</div>
+    <div class="gloss-def">애덤스의 개념. 겪는 사람의 삶 전체를 무의미하게 만들어버릴 것 같은 극단적 악(아우슈비츠, 아동 학대 등). 전체 선의 계산으로는 다뤄질 수 없다.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">회의적 유신론 / CORNEA</div>
+    <div class="gloss-orig">Skeptical Theism / CORNEA</div>
+    <div class="gloss-def">위크스트라의 원리(Condition Of ReasoNable Epistemic Access). "이유가 안 보인다"에서 "이유가 없다"로 넘어가는 추론에는 우리가 그 이유를 볼 수 있으리라는 전제가 필요하다는 논증.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">only-way 논증</div>
+    <div class="gloss-orig">Only-Way Argument</div>
+    <div class="gloss-def">사우스게이트의 개념. 생명의 다양성과 가치는 자연선택을 통한 진화 과정 외에 다른 길로는 만들어질 수 없었으리라는 논증.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">free-process defense</div>
+    <div class="gloss-orig">Free-Process Defense</div>
+    <div class="gloss-def">폴킹혼의 개념. 자유의지 변론을 자연 과정으로 확장한 것 — 자연 세계에도 그 자체의 법칙에 따라 "스스로 되어가는" 자유가 있다는 논지.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">무감수성</div>
+    <div class="gloss-orig">Impassibility</div>
+    <div class="gloss-def">하나님이 외부 원인에 의해 감정적으로 변화되거나 고난당하실 수 없다는 고전 신론의 교리. 와이낸디에 따르면 이는 무감각이 아니라 흔들리지 않는 사랑의 완전성을 의미한다.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">탄식시</div>
+    <div class="gloss-orig">Lament Psalm</div>
+    <div class="gloss-def">시편의 최대 장르(전체의 약 1/3). 호소-불평-간구-신뢰전환의 문법을 갖는 항의 기도. 시편 88편은 신뢰 전환 없이 어둠으로 끝나는 예외적 사례다.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">인과응보 신학</div>
+    <div class="gloss-orig">Retribution Theology</div>
+    <div class="gloss-def">고난을 죄의 결과로, 번영을 순종의 결과로 보는 신학적 도식. 욥의 친구들의 신학이 대표적 사례이며, 욥 42:7에서 하나님께 정면으로 책망받는다.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">신적 은폐성</div>
+    <div class="gloss-orig">Divine Hiddenness</div>
+    <div class="gloss-def">쉘렌버그가 제기한 인접 문제. 완전히 사랑하는 신이 왜 비저항적 불신자에게 자신을 명백히 드러내지 않는가를 묻는다.</div>
+  </div>
+  <div class="gloss-item" style="padding-bottom:20px;">
+    <div class="gloss-term">서사 신정론</div>
+    <div class="gloss-orig">Narrative Theodicy</div>
+    <div class="gloss-def">스텀프가 제시하는 접근. 명제적 논증이 아니라 성경의 이야기(욥, 아브라함과 이삭 등)를 통해 고난의 의미를 체험적으로 이해하는 방법론.</div>
+  </div>
+</div>
+</section>
+
+<!-- S14 토론 논제 -->
+<section id="s14" class="section">
+<div class="section-title">토론 논제</div>
+<p class="section-sub">6개의 열린 토론 주제 — 정답이 없는 질문들과 씨름하세요.</p>
+
+<div class="disc-card">
+  <div class="disc-num">논제 01</div>
+  <div class="disc-q">플란팅가의 '변론/신정론' 구별은 지적 성실성인가, 답변 회피인가?</div>
+  <div class="disc-hint">그리스도인은 가능성 방어(변론)를 넘어 실제 이유 제시(신정론)까지 시도해야 하는가? 아니면 유한한 인간이 무한한 하나님의 실제 이유를 안다고 주장하는 것 자체가 오만인가? 애덤스와 위크스트라의 입장을 함께 고려해보세요.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-num">논제 02</div>
+  <div class="disc-q">영혼 형성 신정론은 참혹악(애덤스) 앞에서 유지 가능한가?</div>
+  <div class="disc-hint">힉과 애덤스의 접근을 아동의 고통 사례에 적용해 평가해보세요. 필립스의 비판(아우슈비츠가 '성장 커리큘럼'일 수 있는가)에 힉이라면 어떻게 응답할 수 있을까요?</div>
+</div>
+<div class="disc-card">
+  <div class="disc-num">논제 03</div>
+  <div class="disc-q">진화적 창조(EC)를 받아들이면 자연악 문제는 더 어려워지는가, 오히려 새 자원을 얻는가?</div>
+  <div class="disc-hint">사우스게이트의 only-way 논증과 동물 종말론을 평가해보세요. 다윈의 이크네우몬 말벌 편지가 제기하는 문제에 이 논증들은 충분히 응답하는가?</div>
+</div>
+<div class="disc-card">
+  <div class="disc-num">논제 04</div>
+  <div class="disc-q">회의적 유신론은 악에서의 논증을 무력화하는 대가로 도덕적 판단 일반을 마비시키는가?</div>
+  <div class="disc-hint">CORNEA와 욥 38장을 함께 논의해보세요. "우리가 모르는 숨은 이유가 있을 것"이라는 태도가 악에 맞선 행동의 의무와 어떻게 양립할 수 있는지 구체적 사례로 검토해보세요.</div>
+</div>
+<div class="disc-card">
+  <div class="disc-num">논제 05</div>
+  <div class="disc-q">하나님은 고난당하실 수 있는가?</div>
+  <div class="disc-hint">몰트만과 와이낸디를 대질시키고, 어느 쪽이 목회 현장에서 더 건전한 언어를 주는지 논의해보세요. 스토트의 십자가 경험은 이 논쟁에서 어느 편에 더 가까운가요?</div>
+</div>
+<div class="disc-card">
+  <div class="disc-num">논제 06</div>
+  <div class="disc-q">현대 교회 예배에서 탄식의 실종은 무엇을 잃게 했는가?</div>
+  <div class="disc-hint">브루그만의 논지로 시 88 같은 기도의 공예배 회복 방안을 설계해보세요. 찬양과 탄식이 균형을 이루는 예배는 구체적으로 어떤 모습일까요?</div>
+</div>
+</section>
+
+<!-- S15 레퍼런스 + 퀴즈 -->
+<section id="s15" class="section">
+<div class="section-title">레퍼런스</div>
+<p class="section-sub">이 자료가 참고한 주요 학술·목회 문헌입니다.</p>
+
+<div class="ref-group">
+  <div class="ref-group-title">① 고전 논문·문제 정식화</div>
+  <div class="ref-item"><span class="ref-num">1.</span>Mackie, J.L. "Evil and Omnipotence." <em>Mind</em> 64 (1955): 200-212. [논리적 문제의 현대적 정식화]</div>
+  <div class="ref-item"><span class="ref-num">2.</span>Rowe, William L. "The Problem of Evil and Some Varieties of Atheism." <em>American Philosophical Quarterly</em> 16 (1979): 335-341. [증거적 문제, 새끼 사슴 사례]</div>
+  <div class="ref-item"><span class="ref-num">3.</span>Wykstra, Stephen. "The Humean Obstacle to Evidential Arguments from Suffering." <em>International Journal for Philosophy of Religion</em> 16 (1984): 73-93. [CORNEA 원리]</div>
+  <div class="ref-item"><span class="ref-num">4.</span>Schellenberg, J.L. <em>Divine Hiddenness and Human Reason.</em> Ithaca: Cornell University Press, 1993. [인접 문제 참고용]</div>
+</div>
+
+<div class="ref-group">
+  <div class="ref-group-title">② 철학적 응답</div>
+  <div class="ref-item"><span class="ref-num">5.</span>Plantinga, Alvin. <em>God, Freedom, and Evil.</em> New York: Harper & Row, 1974 (Eerdmans 재판). [자유의지 변론]</div>
+  <div class="ref-item"><span class="ref-num">6.</span>Hick, John. <em>Evil and the God of Love.</em> London: Macmillan, 1966. [영혼 형성 신정론]</div>
+  <div class="ref-item"><span class="ref-num">7.</span>Adams, Marilyn McCord. <em>Horrendous Evils and the Goodness of God.</em> Ithaca: Cornell University Press, 1999. [참혹악 개념]</div>
+  <div class="ref-item"><span class="ref-num">8.</span>Stump, Eleonore. <em>Wandering in Darkness: Narrative and the Problem of Suffering.</em> Oxford: Oxford University Press, 2010. [서사적 접근]</div>
+  <div class="ref-item"><span class="ref-num">9.</span>van Inwagen, Peter. <em>The Problem of Evil.</em> Oxford: Oxford University Press, 2006. [기포드 강연 기반 개관]</div>
+</div>
+
+<div class="ref-group">
+  <div class="ref-group-title">③ 자연악·진화 (EC 연계)</div>
+  <div class="ref-item"><span class="ref-num">10.</span>Southgate, Christopher. <em>The Groaning of Creation: God, Evolution, and the Problem of Evil.</em> Louisville: Westminster John Knox Press, 2008. [복합적 only-way 신정론]</div>
+  <div class="ref-item"><span class="ref-num">11.</span>Murray, Michael J. <em>Nature Red in Tooth and Claw: Theism and the Suffering of Non-Human Animals.</em> Oxford: Oxford University Press, 2008. [동물 고통의 철학적 분석]</div>
+  <div class="ref-item"><span class="ref-num">12.</span>Darwin, Charles. Letter to Asa Gray, 22 May 1860. Darwin Correspondence Project, University of Cambridge (온라인 아카이브). [이크네우몬 말벌 서신]</div>
+</div>
+
+<div class="ref-group">
+  <div class="ref-group-title">④ 신학·성경신학</div>
+  <div class="ref-item"><span class="ref-num">13.</span>Moltmann, Jürgen. <em>The Crucified God.</em> London: SCM Press, 1974 (독어 초판 <em>Der gekreuzigte Gott</em>, 1972). 『십자가에 달리신 하나님』, 김균진 역, 서울: 대한기독교서회.</div>
+  <div class="ref-item"><span class="ref-num">14.</span>Weinandy, Thomas G. <em>Does God Suffer?</em> Notre Dame: University of Notre Dame Press, 2000. [무감수성 옹호]</div>
+  <div class="ref-item"><span class="ref-num">15.</span>Stott, John. <em>The Cross of Christ.</em> Leicester: IVP, 1986. 『그리스도의 십자가』, IVP.</div>
+  <div class="ref-item"><span class="ref-num">16.</span>Brueggemann, Walter. "The Costly Loss of Lament." <em>Journal for the Study of the Old Testament</em> 36 (1986): 57-71.</div>
+  <div class="ref-item"><span class="ref-num">17.</span>Keller, Timothy. <em>Walking with God through Pain and Suffering.</em> New York: Dutton, 2013. 『팀 켈러, 고통에 답하다』, 두란노.</div>
+</div>
+
+<div class="ref-group">
+  <div class="ref-group-title">⑤ 실존·문학·목회</div>
+  <div class="ref-item"><span class="ref-num">18.</span>Lewis, C.S. <em>The Problem of Pain.</em> London: Geoffrey Bles, 1940. 『고통의 문제』, 홍성사. / <em>A Grief Observed.</em> London: Faber & Faber, 1961. 『헤아려 본 슬픔』, 홍성사.</div>
+  <div class="ref-item"><span class="ref-num">19.</span>Wolterstorff, Nicholas. <em>Lament for a Son.</em> Grand Rapids: Eerdmans, 1987.</div>
+  <div class="ref-item"><span class="ref-num">20.</span>Dostoevsky, Fyodor. <em>The Brothers Karamazov.</em> 1880. 5권 4장 '반역(Rebellion)' — 국내 표준 번역본(민음사·열린책들 등) 참조.</div>
+  <div class="ref-item"><span class="ref-num">21.</span>Tada, Joni Eareckson, and Steven Estes. <em>When God Weeps: Why Our Sufferings Matter to the Almighty.</em> Grand Rapids: Zondervan, 1997.</div>
+</div>
+
+<div class="ref-warning">
+  <strong>⚠️ 레퍼런스 사용 안내:</strong> 위 목록은 모두 실재 확인된 문헌입니다. 이 자료는 참사·사건의 실명 사례를 예시로 소비하지 않으며, 역사적 사례(홀로코스트 등)는 학술 논의 맥락에서만 절제된 방식으로 언급합니다. 심리학·애도 이론을 인용할 경우 최신 표준 자료인지 확인이 필요하며, 재난 사례는 시의성보다 안전성을 우선해 다룹니다.
+</div>
+
+<div class="section-title" style="margin-top:40px;">퀴즈</div>
+<p class="section-sub">12문항 — 학습한 내용을 차분히 점검해보세요.</p>
+
+<div class="quiz-card">
+  <div class="q-num">문제 1</div>
+  <div class="q-text">플란팅가가 도입한 '변론(defense)'과 '신정론(theodicy)'의 구별은?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',1,'a','b','변론은 실제 이유를 주장하지 않는다는 점에서 신정론과 다릅니다.')">a. 변론은 실제 이유를 제시하고, 신정론은 가능성만 제시한다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',1,'b','b','✓ 정확합니다. 신정론은 실제 이유를 제시하려는 시도이고, 변론은 논리적 정합성을 위해 가능한 시나리오 하나만 제시하는 시도입니다.')">b. 신정론은 실제 이유를 제시하고, 변론은 가능성만 제시한다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',1,'c','b','두 개념 모두 악의 존재를 부정하지 않습니다.')">c. 둘 다 악의 존재 자체를 부정하는 시도다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',1,'d','b','이 구별은 성경 해석 방법론이 아니라 철학적 논증 전략의 구별입니다.')">d. 변론은 구약, 신정론은 신약에 근거한 접근이다</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 2</div>
+  <div class="q-text">매키(1955)의 논리적 문제 논증 구조는?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',2,'a','a','✓ 정확합니다. 매키는 전능·전선·악의 존재라는 세 명제가 동시에 참일 수 없는 논리적 모순이라고 주장했습니다.')">a. 전능·전선·악의 존재라는 세 명제가 논리적으로 동시에 참일 수 없다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',2,'b','a','이것은 로우의 증거적(개연성) 논증에 해당합니다.')">b. 악의 개연성이 신 존재의 확률을 낮춘다는 통계적 논증이다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',2,'c','a','매키는 성경 해석이 아니라 순수 철학적 논증을 전개했습니다.')">c. 성경 본문의 내적 모순을 지적하는 논증이다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',2,'d','a','신적 은폐성은 쉘렌버그의 별도 논증입니다.')">d. 신적 은폐성이 신 존재를 반증한다는 논증이다</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 3</div>
+  <div class="q-text">로우(1979)의 '새끼 사슴 사례'가 보여주려는 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',3,'a','a','✓ 정확합니다. 로우는 더 큰 선과 무관해 보이는 극심한 고통의 사례를 통해 개연성 논증(증거적 문제)을 제시합니다.')">a. 더 큰 선과 무관해 보이는 무의미한 고통의 개연적 사례</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',3,'b','a','로우의 논증은 논리적 모순이 아니라 개연성에 기반합니다.')">b. 논리적으로 확실한 모순 증명</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',3,'c','a','이것은 도덕악이 아니라 자연악(동물 고통)의 사례입니다.')">c. 도덕악이 자연악보다 심각하다는 것을 보여주는 사례</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',3,'d','a','이 사례는 종의 멸종이 아니라 개별 동물의 고통에 초점이 있습니다.')">d. 동물 종의 멸종 문제를 다루는 사례</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 4</div>
+  <div class="q-text">논리적 문제(악의 존재와 신의 모순)에 대한 현재 철학계의 대체적 평가는?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',4,'a','a','✓ 정확합니다. 플란팅가의 자유의지 변론 이후 논리적 문제는 대체로 해소된 것으로 평가되며, 무신론 철학자 로우조차 이를 인정했습니다.')">a. 플란팅가의 자유의지 변론 이후 대체로 해소된 것으로 평가된다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',4,'b','a','여전히 활발한 논쟁은 증거적 문제 쪽입니다.')">b. 여전히 해결 불가능한 논쟁으로 남아있다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',4,'c','a','매키 스스로 이 문제를 해결했다고 선언한 바는 없습니다.')">c. 매키 자신이 스스로 논증을 철회했다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',4,'d','a','증거적 문제가 오히려 더 활발히 논의되는 영역입니다.')">d. 증거적 문제와 함께 완전히 폐기되었다</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 5</div>
+  <div class="q-text">힉(John Hick)의 '인식적 거리(epistemic distance)' 개념이 설명하는 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',5,'a','c','이것은 CORNEA(위크스트라)의 논지에 더 가깝습니다.')">a. 인간이 신의 목적을 절대 알 수 없다는 회의주의적 주장이다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',5,'b','c','힉의 개념은 은폐성 자체를 문제로 지적하는 것이 아니라 긍정적 기능을 설명합니다.')">b. 하나님이 인간을 버리셨다는 것을 의미한다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',5,'c','c','✓ 정확합니다. 하나님과의 거리 덕분에 진짜 자유로운 신앙과 성장이 가능해진다는 것이 힉의 논지입니다.')">c. 하나님의 존재가 명백하지 않기에 자유로운 신앙과 성장이 가능하다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',5,'d','c','이 개념은 자연악이 아니라 신앙의 인식론에 관한 것입니다.')">d. 자연악과 도덕악을 구분하는 기준이다</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 6</div>
+  <div class="q-text">애덤스(Marilyn McCord Adams)가 참혹악(horrendous evils)에 대해 제시한 응답은?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',6,'a','c','애덤스는 참혹악의 실재성을 부정하지 않습니다.')">a. 참혹악은 사실 존재하지 않는다는 것</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',6,'b','c','애덤스는 오히려 이런 전체 선 계산 방식의 한계를 지적한 학자입니다.')">b. 참혹악도 전체 선의 총합 계산으로 정당화된다는 것</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',6,'c','c','✓ 정확합니다. 애덤스는 전체 선의 계산이 아니라 하나님과의 인격적 연합 안에서 참혹악이 삼켜진다(defeated)는 대안을 제시합니다.')">c. 하나님과의 인격적 연합을 통해 참혹악이 '삼켜진다'는 것</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',6,'d','c','이것은 힉의 영혼 형성 논지에 대한 비판이지, 애덤스 자신의 결론이 아닙니다.')">d. 참혹악은 영혼 형성의 필수 커리큘럼이라는 것</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 7</div>
+  <div class="q-text">위크스트라의 CORNEA 원리가 로우의 논증에 던지는 반론은?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',7,'a','c','CORNEA는 자연법칙이 아니라 인식론적 접근 가능성에 관한 논증입니다.')">a. 자연법칙의 안정성이 증거적 문제를 해결한다는 것</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',7,'b','c','CORNEA는 반대로 로우의 논증에 도전하는 논증입니다.')">b. 로우의 논증이 논리적으로 완전하다는 것을 확인해준다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',7,'c','c','✓ 정확합니다. CORNEA는 이유가 안 보인다는 것에서 이유가 없다는 결론으로 넘어가려면, 우리가 그 이유를 볼 수 있으리라는 전제가 필요하다고 지적합니다.')">c. "이유가 안 보인다"에서 "이유가 없다"로의 추론은 인식적 접근 조건을 전제해야 한다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',7,'d','c','이것은 플란팅가의 변론에 해당하는 내용입니다.')">d. 자유의지 변론이 증거적 문제에도 그대로 적용된다는 것</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 8</div>
+  <div class="q-text">사우스게이트의 '복합적 only-way 신정론' 3중 구조에 포함되지 않는 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',8,'a','d','only-way 논증은 3중 구조에 포함됩니다.')">a. only-way 논증 (진화 외 다른 길이 없다)</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',8,'b','d','하나님의 공동 고난은 3중 구조에 포함됩니다.')">b. 하나님의 공동 고난</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',8,'c','d','동물 종말론은 3중 구조에 포함됩니다.')">c. 동물 종말론(구속 범위의 확장)</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',8,'d','d','✓ 정확합니다. 초세계적 타락성은 플란팅가의 자유의지 변론 개념이며, 사우스게이트의 3중 구조에 속하지 않습니다.')">d. 초세계적 타락성</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 9</div>
+  <div class="q-text">욥기 42:7에서 하나님이 내리시는 판결의 의미는?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',9,'a','b','친구들의 신학이 아니라 욥의 항의가 옳다고 인정됩니다.')">a. 친구들의 인과응보 신학이 옳았다고 확인해준다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',9,'b','b','✓ 정확합니다. 정직한 항의가 경건해 보이는 상투어보다 낫다는 정경적 선언입니다.')">b. 정직한 항의가 경건해 보이는 상투어보다 낫다는 것</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',9,'c','b','욥에게 숨겨진 죄가 있었다는 판결은 없습니다.')">c. 욥에게 숨겨진 죄가 있었음을 확인해준다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',9,'d','b','친구들은 오히려 책망을 받습니다.')">d. 친구들의 위로가 효과적이었음을 인정해준다</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 10</div>
+  <div class="q-text">시편 88편이 다른 탄식시들과 구별되는 정경적 특징은?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',10,'a','b','대부분의 탄식시는 신뢰의 고백으로 전환되며, 88편이 예외입니다.')">a. 다른 탄식시처럼 결국 찬양으로 전환된다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',10,'b','b','✓ 정확합니다. 시편 88편은 신뢰 전환 없이 히브리어 원문의 마지막 단어 그대로 어둠(마흐샤크)으로 끝나는 유일한 탄식시입니다.')">b. 신뢰로의 전환 없이 히브리어 원문 그대로 '어둠'으로 끝난다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',10,'c','b','시편 88편은 정경에서 삭제되지 않고 그대로 보존되어 있습니다.')">c. 정경에서 삭제되었다가 나중에 복원되었다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',10,'d','b','시편 88편은 개인 탄식시로 분류됩니다.')">d. 유일하게 공동체 탄식시로 분류된다</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 11</div>
+  <div class="q-text">몰트만과 와이낸디의 논쟁에서 핵심 쟁점은?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',11,'a','d','이 논쟁은 성경 역사성이 아니라 신론적 쟁점입니다.')">a. 욥기의 역사성 여부</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',11,'b','d','두 학자 모두 신의 존재 자체를 논쟁하지 않습니다.')">b. 신의 존재 자체를 증명할 수 있는가</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',11,'c','d','이 논쟁은 진화가 아니라 신론(고난 가능성)에 관한 것입니다.')">c. 진화가 신학적으로 수용 가능한가</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',11,'d','d','✓ 정확합니다. 몰트만은 사랑이 고난당할 수 있는 능력을 전제한다고 보았고, 와이낸디는 무감수성이 사랑의 완전성이라고 변호했습니다.')">d. 하나님이 문자 그대로 고난당하실 수 있는가, 아니면 무감수성이 사랑의 완전성인가</button>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="q-num">문제 12</div>
+  <div class="q-text">C.S. 루이스의 『고통의 문제』와 『헤아려 본 슬픔』 두 책의 대비가 보여주는 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',12,'a','a','✓ 정확합니다. 같은 저자의 두 책은 지적 이해와 실존적 경험이 서로 다른 층위이며 하나가 다른 하나를 대체할 수 없음을 보여줍니다.')">a. 지적 이해와 실존적 경험은 서로 다른 층위이며 대체될 수 없다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s15',12,'b','a','루이스는 이전 이론을 완전히 폐기하지 않았습니다.')">b. 루이스가 이전에 쓴 이론이 완전히 틀렸음을 스스로 증명했다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s15',12,'c','a','두 책 모두 신앙을 진지하게 다루며, 신앙을 버렸다는 근거가 아닙니다.')">c. 신앙이 있는 사람은 배우자를 잃어도 슬퍼하지 않아야 한다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s15',12,'d','a','이 대비는 이론과 경험의 관계에 관한 것이지 신정론의 무용성 선언이 아닙니다.')">d. 신정론은 무용하므로 아예 시도하지 말아야 한다</button>
+  </div>
+</div>
+
+</section>
+
+<footer>
+  <p>Made by Isaac with Claude | 고난과 악의 문제 교육자료 — 대학생 버전</p>
+  <p style="margin-top:6px;"><a href="index.html">← 버전 선택으로</a></p>
+</footer>
+
+<script>
+function setActive(a){
+  document.querySelectorAll('nav a').forEach(x=>x.classList.remove('active'));
+  a.classList.add('active');
+}
+
+function switchTab(sectionId,panelId,btn){
+  const sec=document.getElementById(sectionId);
+  sec.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  sec.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleAcc(btn){
+  const body=btn.nextElementSibling;
+  const arrow=btn.querySelector('.arrow');
+  const isOpen=body.classList.contains('open');
+  if(isOpen){
+    body.style.maxHeight=body.scrollHeight+'px';
+    requestAnimationFrame(()=>{
+      body.classList.remove('open');
+      body.style.maxHeight='0';
+    });
+  } else {
+    body.classList.add('open');
+    body.style.maxHeight=body.scrollHeight+'px';
+  }
+  if(arrow) arrow.textContent=isOpen?'▼':'▲';
+}
+
+function toggleFlip(card){card.classList.toggle('flipped');}
+function flipCard(card){card.classList.toggle('flipped');}
+
+const _ans={};
+function answerQuiz(sec,qNum,chosen,correct,feedback){
+  const key=sec+'_'+qNum;
+  if(_ans[key]) return;
+  _ans[key]={chosen,correct};
+  const cards=document.querySelectorAll('#'+sec+' .quiz-card');
+  const card=cards[qNum-1];
+  if(!card) return;
+  card.querySelectorAll('.q-opt').forEach(btn=>{
+    btn.disabled=true;
+    const v=btn.getAttribute('data-val');
+    if(v===correct) btn.classList.add('correct');
+    else if(v===chosen) btn.classList.add('wrong');
+  });
+  let fb=card.querySelector('.q-feedback');
+  if(!fb){fb=document.createElement('p');fb.className='q-feedback';card.appendChild(fb);}
+  fb.innerHTML=feedback;fb.style.display='block';
+  const secEl=document.getElementById(sec);
+  const total=secEl.querySelectorAll('.quiz-card').length;
+  const done=Object.keys(_ans).filter(k=>k.startsWith(sec+'_')).length;
+  if(done===total){
+    showScore(sec);
+  }
+}
+
+function showScore(sec){
+  const secEl=document.getElementById(sec);
+  const cards=secEl.querySelectorAll('.quiz-card');
+  let correct=0;
+  cards.forEach((_,i)=>{
+    const k=sec+'_'+(i+1);
+    if(_ans[k]&&_ans[k].chosen===_ans[k].correct) correct++;
+  });
+  const total=cards.length;
+  const pct=Math.round(correct/total*100);
+  let msg='';
+  if(correct===total) msg='더할 나위 없이 꼼꼼하게 이해했습니다.';
+  else if(correct>=total*0.83) msg='핵심 개념을 잘 파악하고 있습니다.';
+  else if(correct>=total*0.58) msg='좋습니다. 부족한 부분을 다시 읽어보세요.';
+  else msg='자료를 다시 한번 차분히 읽어보길 권합니다.';
+  let box=secEl.querySelector('.score-box');
+  if(!box){box=document.createElement('div');box.className='score-box';secEl.appendChild(box);}
+  box.innerHTML='<div class="score-num">'+correct+' / '+total+'</div><div>정답률: '+pct+'% — '+msg+'</div>';
+  box.scrollIntoView({behavior:'smooth'});
+}
+
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('nav a[href^="#"]');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{if(s.getBoundingClientRect().top<=120) cur=s.id;});
+  navLinks.forEach(a=>{
+    a.classList.toggle('active',a.getAttribute('href')==='#'+cur);
+  });
+});
+</script>
+</body>
+</html>

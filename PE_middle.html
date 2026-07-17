@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고난과 악의 문제 — 청소년 버전</title>
+<style>
+  :root {
+    --pe: #3d405b;
+    --pe-dark: #23253a;
+    --pe-light: #8e91ad;
+    --pe-xlight: #eaebf2;
+    --gold: #f4a261;
+    --gold-light: #fde9d4;
+    --bg: #f9fafb;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6c757d;
+    --border: #dee2e6;
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+         background: var(--bg); color: var(--text); line-height: 1.7; }
+
+  .site-header { background: linear-gradient(135deg, #23253a 0%, #3d405b 100%);
+    color: #fff; padding: 48px 24px 36px; text-align: center; }
+  .site-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+  .site-header p { opacity: .85; font-size: .98rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+  .level-badge { display: inline-block; background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.35); border-radius: 20px;
+    padding: 4px 16px; font-size: .8rem; margin-top: 12px; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: #fff;
+        border-bottom: 2px solid var(--pe-xlight); padding: 0 16px;
+        overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 0;
+               overflow-x: auto; scrollbar-width: none; }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  nav a { display: inline-block; padding: 13px 14px; font-size: .83rem; font-weight: 600;
+          color: var(--muted); text-decoration: none; white-space: nowrap;
+          border-bottom: 3px solid transparent; transition: all .2s; }
+  nav a.active, nav a:hover { color: var(--pe); border-bottom-color: var(--pe); }
+
+  .section { max-width: 860px; margin: 0 auto; padding: 48px 20px; }
+  .section + .section { border-top: 1px solid var(--border); }
+  .section-title { font-size: 1.35rem; font-weight: 800; color: var(--pe);
+    margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .section-sub { font-size: .9rem; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+
+  .card { background: var(--card); border-radius: var(--radius);
+          box-shadow: var(--shadow); padding: 28px; margin-bottom: 16px; }
+  .highlight-box { background: var(--pe-xlight); border-left: 4px solid var(--pe);
+    border-radius: 0 var(--radius) var(--radius) 0; padding: 16px 20px; margin: 16px 0; font-size: .93rem; }
+  .warn-box { background: #fff3cd; border-left: 4px solid #ffc107;
+    border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 12px 0; font-size: .9rem; }
+  .info-box { background: #e8f4fd; border-left: 4px solid #4895ef;
+    border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 12px 0; font-size: .9rem; }
+  .success-box { background: #d8f3dc; border-left: 4px solid #2d6a4f;
+    border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 12px 0; font-size: .9rem; }
+  .care-box { background: var(--gold-light); border-left: 4px solid var(--gold);
+    border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0; font-size: .9rem; color: #6b4c1a; line-height: 1.7; }
+  .verse-card { background: var(--pe-xlight); border-radius: var(--radius);
+    padding: 18px 22px; margin: 14px 0; font-size: .95rem; font-style: italic; color: var(--pe-dark);
+    border-left: 4px solid var(--pe-light); }
+  .verse-ref { display: block; margin-top: 8px; font-size: .8rem; font-style: normal; font-weight: 700; color: var(--pe); }
+
+  .tab-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+             overflow-x: auto; scrollbar-width: none; }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn { background: var(--bg); border: 1px solid var(--border);
+             border-radius: 20px; padding: 8px 16px; font-size: .85rem;
+             font-weight: 600; cursor: pointer; color: var(--muted); transition: .2s; white-space: nowrap; }
+  .tab-btn.active { background: var(--pe); color: #fff; border-color: var(--pe); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .acc-item { border: 1px solid var(--border); border-radius: var(--radius);
+              overflow: hidden; margin-bottom: 8px; }
+  .acc-btn { width: 100%; text-align: left; padding: 16px 18px; background: var(--card);
+             font-size: .95rem; font-weight: 700; border: none; cursor: pointer;
+             display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .acc-btn:hover { background: #f8f9fa; }
+  .acc-body { max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease; padding: 0 18px; }
+  .acc-body.open { padding: 16px 18px; }
+  .arrow { font-size: .75rem; color: var(--muted); transition: transform .25s; flex-shrink: 0; }
+
+  .flip-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(190px,1fr)); gap: 14px; margin-bottom: 20px; }
+  .flip-card { height: 200px; cursor: pointer; perspective: 1000px; }
+  .flip-inner { width: 100%; height: 100%; transition: transform .5s; transform-style: preserve-3d; position: relative; }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+    border-radius: var(--radius); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 16px; text-align: center; }
+  .flip-front { background: var(--card); border: 2px solid var(--pe-xlight); }
+  .flip-back { background: var(--pe); color: #fff; transform: rotateY(180deg); }
+  .flip-icon { font-size: 2rem; margin-bottom: 8px; }
+  .flip-title { font-size: .95rem; font-weight: 700; }
+  .flip-subtitle { font-size: .74rem; color: var(--muted); margin-top: 3px; }
+  .flip-hint { font-size: .72rem; color: var(--muted); margin-top: 6px; }
+  .flip-back-title { font-size: .95rem; font-weight: 800; margin-bottom: 8px; }
+  .flip-back-text { font-size: .81rem; line-height: 1.6; opacity: .95; }
+
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+  @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 20px; }
+  .compare-card.bad { border-top: 4px solid #e63946; }
+  .compare-card.good { border-top: 4px solid #2d6a4f; }
+  .compare-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+  .compare-card.bad .compare-label { color: #c1121f; }
+  .compare-card.good .compare-label { color: #2d6a4f; }
+  .compare-card ul { padding-left: 18px; font-size: .88rem; line-height: 1.9; }
+
+  .person-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 16px; }
+  .person-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; }
+  .person-emoji { font-size: 2.2rem; margin-bottom: 8px; }
+  .person-name { font-size: 1rem; font-weight: 800; margin-bottom: 2px; }
+  .person-role { font-size: .78rem; color: var(--pe); font-weight: 600; margin-bottom: 8px; }
+  .person-work { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: 8px; }
+  .person-desc { font-size: .85rem; color: #444; line-height: 1.6; }
+
+  .quiz-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+               padding: 24px; margin-bottom: 16px; }
+  .q-num { font-size: .75rem; font-weight: 700; color: var(--pe); text-transform: uppercase; margin-bottom: 6px; }
+  .q-text { font-size: 1rem; font-weight: 700; margin-bottom: 14px; line-height: 1.5; }
+  .q-options { display: flex; flex-direction: column; gap: 8px; }
+  .q-opt { text-align: left; padding: 12px 16px; border-radius: 8px; border: 1.5px solid var(--border);
+           background: #fff; font-size: .9rem; cursor: pointer; transition: .18s; }
+  .q-opt:hover:not(:disabled) { border-color: var(--pe); background: var(--pe-xlight); }
+  .q-opt.correct { border-color: #2d6a4f; background: #d8f3dc; color: #2d6a4f; font-weight: 700; }
+  .q-opt.wrong { border-color: #e63946; background: #ffe0e3; color: #c1121f; }
+  .q-feedback { margin-top: 12px; padding: 10px 14px; border-radius: 8px;
+                background: var(--pe-xlight); font-size: .88rem; border-left: 3px solid var(--pe); }
+  .score-box { background: var(--pe); color: #fff; border-radius: var(--radius);
+               padding: 28px; text-align: center; margin-top: 24px; }
+  .score-num { font-size: 2.8rem; font-weight: 800; margin-bottom: 4px; }
+
+  footer { background: var(--pe-dark); color: rgba(255,255,255,.75);
+           text-align: center; padding: 20px; font-size: .82rem; }
+  footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 1.6rem; }
+    .section { padding: 32px 16px; }
+    .flip-grid { grid-template-columns: 1fr 1fr; }
+    .person-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div style="background:#23253a;padding:10px 20px;display:flex;align-items:center;gap:10px;">
+  <a href="https://isaac-math.github.io/Faith_Reason/" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:4px 12px;">← 전체 시리즈</a>
+  <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
+  <a href="index.html" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:4px 12px;">🏠 홈으로</a>
+  <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
+  <span style="color:rgba(255,255,255,.7);font-size:.82rem;">고난과 악의 문제 — 청소년 버전</span>
+</div>
+
+<div class="site-header">
+  <h1>🕯️ 고난과 악의 문제</h1>
+  <p>"하나님이 계신데 왜 이런 일이?" — 이 질문을 성경은 금지하지 않습니다.<br>욥의 이야기, 그리고 아파하는 사람 곁에 있는 법을 함께 배웁니다.</p>
+  <span class="level-badge">청소년 버전</span>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#s0" class="active" onclick="setActive(this)">🕯️ 물어봐도 괜찮아</a>
+    <a href="#s1" onclick="setActive(this)">🌱 아픔의 시작</a>
+    <a href="#s2" onclick="setActive(this)">🎁 자유와 사랑</a>
+    <a href="#s3" onclick="setActive(this)">🌋 지진과 병</a>
+    <a href="#s4" onclick="setActive(this)">📜 욥 이야기</a>
+    <a href="#s5" onclick="setActive(this)">😢 우는 예수님</a>
+    <a href="#s6" onclick="setActive(this)">🌅 끝이 아니야</a>
+    <a href="#s7" onclick="setActive(this)">🤝 친구 곁에서</a>
+    <a href="#s8" onclick="setActive(this)">🌟 인물·퀴즈</a>
+  </div>
+</nav>
+
+<!-- S0 물어봐도 괜찮아 -->
+<section id="s0" class="section">
+<div class="section-title">🕯️ 물어봐도 괜찮아</div>
+<p class="section-sub">"하나님이 계신데 왜 이런 일이 일어날까?" — 이 질문은 불신앙의 표시가 아닙니다.</p>
+
+<div class="care-box">
+  <strong>지금 깊은 상실 가운데 있다면,</strong> 이 자료는 철학·신앙 수업이지 응급처치가 아니에요. 지금 필요한 건 정교한 논증이 아니라 곁에 있어줄 사람일 수 있어요. 믿을 수 있는 어른이나 목회자, 전문 상담 선생님께 이야기하는 것을 망설이지 마세요.
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:12px;">질문 = 불신앙이라는 오해</p>
+  <p>많은 사람이 "왜 하나님은 이런 일을 허락하셨을까"라고 물으면서도, 그 질문 자체를 죄책감 없이 꺼내지 못합니다. 믿음이 좋은 사람은 의심하지 않는다는 생각 때문이죠. 그런데 성경을 펼쳐보면 전혀 다른 그림이 나옵니다.</p>
+  <div class="verse-card">
+    "여호와여 어느 때까지니이까 나를 영원히 잊으시나이까 주의 얼굴을 나에게서 어느 때까지 숨기시겠나이까"
+    <span class="verse-ref">— 시편 13:1</span>
+  </div>
+  <p>이 구절을 쓴 사람은 하나님을 믿지 않는 사람이 아니라, 하나님을 가장 신뢰했던 사람 중 한 명인 다윗입니다. 성경에는 이런 질문의 기도가 시편 전체의 약 3분의 1을 차지할 만큼 많습니다.</p>
+</div>
+
+<div class="warn-box">
+  <strong>오해:</strong> "정말 믿음이 있으면 '왜'라고 묻지 않는다."
+</div>
+<div class="success-box">
+  <strong>진실:</strong> 성경 속 믿음의 사람들은 하나님께 직접, 때로는 격렬하게 따져 물었습니다. 질문은 하나님과의 관계가 끊어졌다는 신호가 아니라, 오히려 그 관계가 진짜라는 증거일 수 있습니다.
+</div>
+
+<p style="margin-top:14px;font-size:.93rem;color:var(--muted);">이 자료는 "고난과 악의 문제"라는 가장 오래되고 어려운 질문을 정직하게 다룹니다. 답을 아는 척하지 않되, 성경이 실제로 무엇을 말하는지 함께 살펴봅니다.</p>
+</section>
+
+<!-- S1 아픔의 시작 -->
+<section id="s1" class="section">
+<div class="section-title">🌱 아픔은 어디서 왔을까</div>
+<p class="section-sub">창조는 좋았습니다 — 그런데 왜 지금 세상은 이렇게 아플까요?</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:12px;">세 단계로 보는 흐름</p>
+  <p><strong>1. 창조는 좋았다 (창세기 1장)</strong> — 하나님은 세상을 만드시고 "보시기에 좋았더라"고 하셨습니다. 아픔이나 깨어짐은 원래 계획에 없었습니다.</p>
+  <p style="margin-top:10px;"><strong>2. 자유라는 선물</strong> — 하나님은 사람에게 진짜 자유를 주셨습니다. 로봇이 아니라, 사랑하거나 거부할 수 있는 존재로요.</p>
+  <p style="margin-top:10px;"><strong>3. 깨어짐 (창세기 3장)</strong> — 그 자유가 잘못 사용되면서 하나님과의 관계, 사람과 사람의 관계, 사람과 자연의 관계 모두에 금이 갔습니다. 이 "관계의 단절"이 세상 곳곳으로 퍼져나간 것이 지금 우리가 보는 아픔의 뿌리입니다.</p>
+</div>
+
+<div class="highlight-box">
+  <strong>중요한 교정 하나:</strong> "저 사람이 아픈 건 저 사람이 지은 죄 때문이다" — 이 공식은 예수님이 직접 거부하셨습니다.
+</div>
+
+<div class="verse-card">
+  "랍비여 이 사람이 맹인으로 난 것이 누구의 죄로 인함이니이까 자기니이까 그의 부모니이까... 이 사람이나 그 부모가 죄를 범한 것이 아니라 그에게서 하나님이 하시는 일을 나타내고자 하심이라"
+  <span class="verse-ref">— 요한복음 9:2-3</span>
+</div>
+
+<p>제자들은 자연스럽게 "누구 잘못이냐"고 물었습니다. 예수님의 대답은 그 질문의 틀 자체를 깨뜨립니다. 아픔을 겪는 사람을 보면 자동으로 "저 사람이 뭘 잘못했나" 생각하는 것 — 이건 성경적인 태도가 아닙니다. 눅 13:1-5에서도 예수님은 재난으로 죽은 사람들이 다른 사람보다 더 큰 죄인이었기 때문이 아니라고 분명히 말씀하십니다.</p>
+</section>
+
+<!-- S2 자유와 사랑 -->
+<section id="s2" class="section">
+<div class="section-title">🎁 막을 수 있는데 왜 안 막으실까</div>
+<p class="section-sub">자유의지 변론 — 로봇의 비유로 쉽게 이해하기.</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('s2','s2t1',this)">로봇 비유</button>
+  <button class="tab-btn" onclick="switchTab('s2','s2t2',this)">리모컨 세상</button>
+</div>
+<div id="s2t1" class="tab-panel active">
+  <div class="card">
+    <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">강제로 착하게 만든 로봇의 "사랑"은 사랑인가?</p>
+    <p>누군가를 프로그래밍해서 항상 당신을 사랑하고 절대 배신하지 않게 만들 수 있다고 해봅시다. 그 로봇은 매일 "사랑해"라고 말합니다. 그런데 그건 진짜 사랑일까요?</p>
+    <div class="highlight-box">대부분의 사람은 "아니다"라고 답합니다. 사랑이 진짜이려면, 사랑하지 않을 수도 있는 가능성이 있어야 하기 때문입니다. 선택할 수 없다면 그건 사랑이 아니라 그냥 작동입니다.</div>
+    <p style="margin-top:10px;">하나님이 사람에게 원하신 것은 로봇의 복종이 아니라 진짜 사랑이었습니다. 그런데 진짜 사랑이 가능하려면, 그 사랑을 거부할 가능성도 함께 존재해야 합니다. 자유가 진짜라면, 그 자유가 잘못 쓰일 가능성도 진짜입니다.</p>
+  </div>
+</div>
+<div id="s2t2" class="tab-panel">
+  <div class="card">
+    <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">모든 나쁜 선택을 리모컨으로 막는 세상이라면?</p>
+    <p>하나님이 누군가 나쁜 짓을 하려는 순간마다 리모컨 버튼을 눌러 멈추게 하시는 세상을 상상해봅시다. 거짓말을 하려 하면 혀가 굳고, 도둑질하려 하면 손이 멈춥니다.</p>
+    <p style="margin-top:10px;">이런 세상에서는 나쁜 일이 줄어들 수는 있어도, "선택"이라는 것 자체가 사라집니다. 착한 행동도 진짜 선택이 아니라 강제로 된 결과가 됩니다. 도덕이나 사랑, 신뢰, 용기 같은 것들은 진짜 선택이 가능한 세상에서만 의미를 갖습니다.</p>
+    <div class="warn-box">이것이 자유의지 변론의 핵심입니다: 자유가 없는 세상은 안전할 수는 있어도, 사랑이 불가능한 세상입니다.</div>
+  </div>
+</div>
+</section>
+
+<!-- S3 지진과 병 -->
+<section id="s3" class="section">
+<div class="section-title">🌋 지진과 병은 누구 잘못도 아닌데</div>
+<p class="section-sub">자연악의 문제 — 사람의 선택과 무관한 아픔은 왜 있을까.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">규칙이 있는 세상이라서 가능한 것들</p>
+  <p>비는 예외 없이 위에서 아래로 떨어집니다. 이 "예외 없음" 때문에 농부는 수로를 만들 수 있고, 건축가는 다리를 설계할 수 있고, 의사는 약의 효과를 예측할 수 있습니다. 자연 법칙이 안정적이라는 것은 과학, 계획, 신뢰 전체를 가능하게 만드는 조건입니다.</p>
+  <div class="info-box">그런데 같은 이유로, 그 비는 농부에게도 소풍 가는 사람에게도 똑같이 내립니다. 안정된 법칙이 주는 혜택과, 그 법칙이 가끔 사람에게 고통을 주는 것은 같은 동전의 양면입니다.</div>
+  <p style="margin-top:10px;">지진이나 병 같은 자연악은 누구의 도덕적 잘못 때문에 일어나는 게 아닙니다. 안정된 자연 세계이기 때문에 생기는, 설명하기 어려운 아픔입니다.</p>
+</div>
+
+<div class="warn-box">
+  <strong>정직하게 인정할 것:</strong> 성경도 이 모든 것을 다 설명해주지는 않습니다. "왜 하필 이 사람에게, 왜 하필 지금"이라는 질문에는 완벽한 답이 없을 때가 많습니다. 이 자료도 그 답을 억지로 만들어내지 않습니다.
+</div>
+</section>
+
+<!-- S4 욥 이야기 -->
+<section id="s4" class="section">
+<div class="section-title">📜 욥 이야기</div>
+<p class="section-sub">성경이 직접 품고 있는, 가장 정직한 고난의 이야기.</p>
+
+<div class="acc-item">
+  <button class="acc-btn" onclick="toggleAcc(this)">줄거리 요약 <span class="arrow">▼</span></button>
+  <div class="acc-body">
+    <p>욥은 흠 없이 살던 사람이었습니다. 그런데 하루아침에 재산과 자녀를 모두 잃고, 온몸에 병을 얻습니다. 그의 세 친구가 찾아와 "네가 뭔가 잘못했으니 이런 일이 일어난 것"이라고 설득하려 합니다. 욥은 그 설명을 받아들이지 않고 하나님께 직접 따져 묻습니다. 이야기의 끝에서 하나님이 욥에게 나타나시지만, 놀랍게도 "왜 이런 일이 일어났는지" 설명하지 않으십니다.</p>
+  </div>
+</div>
+
+<div class="acc-item">
+  <button class="acc-btn" onclick="toggleAcc(this)">친구들의 실패 <span class="arrow">▼</span></button>
+  <div class="acc-body">
+    <p>욥의 친구들의 말은 그럴듯하게 들립니다 — "네가 겪는 고난에는 이유가 있다, 네 죄를 돌아봐라." 그런데 이야기 끝에서 하나님은 뜻밖의 판정을 내리십니다.</p>
+    <div class="verse-card">"너희가 나를 가리켜 말한 것이 내 종 욥의 말 같이 옳지 못함이니라"<span class="verse-ref">— 욥기 42:7</span></div>
+    <p>맞는 말처럼 들리는 신학이라도, 아파하는 사람 앞에서는 틀린 위로가 될 수 있습니다. 반면 하나님께 대들 듯 따져 물었던 욥은 오히려 칭찬을 받습니다. 정직한 항의가 경건해 보이는 상투어보다 낫다는 것입니다.</p>
+  </div>
+</div>
+
+<div class="acc-item">
+  <button class="acc-btn" onclick="toggleAcc(this)">하나님의 답: 설명 대신 만남 <span class="arrow">▼</span></button>
+  <div class="acc-body">
+    <p>하나님은 욥기 38-41장에서 마침내 욥에게 말씀하십니다. 그런데 "왜 너에게 이런 일이 일어났는지" 한 마디도 설명하지 않으십니다. 대신 창조 세계의 광대함을 보여주시며 욥과 직접 만나십니다. 욥은 그 만남 후에 이렇게 고백합니다 — "이제는 눈으로 주를 뵈옵나이다"(욥 42:5). 설명을 얻은 게 아니라, 함께 계신 하나님을 만난 것입니다.</p>
+  </div>
+</div>
+</section>
+
+<!-- S5 우는 예수님 -->
+<section id="s5" class="section">
+<div class="section-title">😢 우는 예수님</div>
+<p class="section-sub">하나님은 아픔 바깥에 서 계신 분이 아닙니다.</p>
+
+<div class="card">
+  <div class="verse-card">"예수께서 눈물을 흘리시더라"<span class="verse-ref">— 요한복음 11:35</span></div>
+  <p>이 구절이 놀라운 이유가 있습니다. 예수님은 몇 분 뒤에 나사로를 다시 살리실 것을 이미 알고 계셨습니다. 그런데도 무덤 앞에서 우셨습니다. 곧 해결될 것을 아셔도, 지금 이 순간의 슬픔은 진짜였습니다.</p>
+  <p style="margin-top:12px;">그리고 십자가에서, 하나님은 고통의 바깥에 머무르지 않고 그 한가운데로 직접 들어오셨습니다. 채찍질, 배신, 죽음 — 사람이 겪는 가장 깊은 아픔을 하나님 자신이 몸으로 겪으셨습니다.</p>
+  <div class="highlight-box">"하나님도 아신다, 잃는다는 게 무엇인지." 이것은 멀리서 던지는 위로의 말이 아니라, 직접 겪어본 사람만이 할 수 있는 말입니다.</div>
+</div>
+</section>
+
+<!-- S6 끝이 아니야 -->
+<section id="s6" class="section" style="background:linear-gradient(180deg,#fff 0%,var(--gold-light) 100%);">
+<div class="section-title" style="color:#b5651d;">🌅 끝이 아니야</div>
+<p class="section-sub">지금의 아픔이 마지막 장면은 아닙니다.</p>
+
+<div class="card" style="border-top:4px solid var(--gold);">
+  <div class="verse-card" style="border-left-color:var(--gold);">
+    "모든 눈물을 그 눈에서 닦아 주시니 다시는 사망이 없고 애통하는 것이나 곡하는 것이나 아픈 것이 다시 있지 아니하리니 처음 것들이 다 지나갔음이러라"
+    <span class="verse-ref">— 요한계시록 21:4</span>
+  </div>
+  <p>예수님의 부활은 죽음이 마지막 말이 아니라는 것을 보여준 사건입니다. 성경이 그리는 마지막 장면은 눈물이 영원히 이어지는 세상이 아니라, 하나님이 직접 그 눈물을 닦아 주시는 새 하늘과 새 땅입니다.</p>
+  <div class="success-box">이 소망은 지금의 고통을 못 본 척하는 도피가 아닙니다. 오히려 지금 이 순간을 버텨낼 힘을 줍니다. 언젠가 이 아픔이 완전히 회복될 것이라는 믿음은, 오늘 하루를 살아갈 이유가 되어줍니다.</div>
+</div>
+</section>
+
+<!-- S7 친구 곁에서 -->
+<section id="s7" class="section">
+<div class="section-title">🤝 아파하는 친구 곁에서</div>
+<p class="section-sub">지식보다 중요한 건, 무엇을 하느냐입니다.</p>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:12px;">욥의 친구들이 유일하게 잘한 일</p>
+  <div class="verse-card">"밤낮 칠 일을 그와 함께 땅에 앉았으나 그의 고통이 심함을 보고 그에게 한마디도 말하는 자가 없었더라"<span class="verse-ref">— 욥기 2:13</span></div>
+  <p>욥의 친구들이 입을 열기 전, 7일 동안 침묵하며 곁에 앉아 있었던 것 — 그것이 이야기 전체에서 그들이 가장 잘한 일이었습니다. 문제는 그다음, 설명하려고 입을 열면서부터 시작되었습니다.</p>
+</div>
+
+<div class="compare-grid">
+  <div class="compare-card bad">
+    <div class="compare-label">하지 말아야 할 말</div>
+    <ul>
+      <li>"다 뜻이 있어서 그런 거야"</li>
+      <li>"더 힘든 사람도 있잖아"</li>
+      <li>"시간이 다 해결해 줄 거야"</li>
+      <li>"너무 슬퍼하지 마"</li>
+    </ul>
+  </div>
+  <div class="compare-card good">
+    <div class="compare-label">해도 되는 것</div>
+    <ul>
+      <li>그냥 곁에 같이 있어주기</li>
+      <li>같이 울어주기</li>
+      <li>밥 챙기기 같은 실질적인 도움</li>
+      <li>시간이 지나도 계속 연락하기</li>
+    </ul>
+  </div>
+</div>
+
+<div class="highlight-box">설명이 필요한 순간도 있지만, 대부분의 경우 아파하는 사람에게 가장 필요한 건 정답이 아니라 곁에 있어주는 사람입니다.</div>
+</section>
+
+<!-- S8 인물 카드 + 퀴즈 -->
+<section id="s8" class="section">
+<div class="section-title">🌟 인물 카드</div>
+<p class="section-sub">고난 앞에서 정직하게 씨름했던 네 사람.</p>
+
+<div class="person-grid">
+  <div class="person-card">
+    <div class="person-emoji">📜</div>
+    <div class="person-name">욥</div>
+    <div class="person-role">성경이 품은 질문자</div>
+    <div class="person-work">욥기</div>
+    <div class="person-desc">모든 것을 잃고도 하나님을 저주하지 않았지만, 침묵하지도 않았습니다. 하나님께 직접 따져 물었고, 그 정직함 때문에 오히려 칭찬받았습니다.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">✍️</div>
+    <div class="person-name">C.S. 루이스</div>
+    <div class="person-role">이론과 눈물, 두 책을 쓴 사람</div>
+    <div class="person-work">『고통의 문제』· 『헤아려 본 슬픔』</div>
+    <div class="person-desc">고난에 대한 이론적인 책을 썼던 그는, 훗날 아내를 잃고 나서 훨씬 더 날것의 슬픔을 담은 일기를 남겼습니다. 아는 것과 겪는 것은 다르다는 것을 자신의 삶으로 보여준 사람입니다.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">🎨</div>
+    <div class="person-name">조니 에릭슨 타다</div>
+    <div class="person-role">고난 속 소망의 증인</div>
+    <div class="person-work">『When God Weeps』</div>
+    <div class="person-desc">17세에 다이빙 사고로 사지마비가 된 뒤에도, 그림을 그리고 글을 쓰며 고난 가운데서도 소망을 이야기하는 삶을 살아왔습니다.</div>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">🕊️</div>
+    <div class="person-name">코리 텐 붐</div>
+    <div class="person-role">용서를 이야기한 생존자</div>
+    <div class="person-work">『주는 나의 피난처』</div>
+    <div class="person-desc">나치 수용소에서 살아남은 뒤, 자신을 괴롭혔던 이를 용서하는 이야기로 널리 알려졌습니다. 가장 깊은 상처 속에서도 회복의 길이 있음을 보여줍니다.</div>
+  </div>
+</div>
+
+<div class="section-title" style="margin-top:40px;">📝 퀴즈</div>
+<p class="section-sub">10문항 — 배운 내용을 차분히 점검해보세요.</p>
+
+<div class="quiz-card" id="q1">
+  <div class="q-num">문제 1</div>
+  <div class="q-text">시편에서 "어느 때까지니이까"라고 따져 묻는 기도가 의미하는 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(1,'a','b')">① 하나님을 믿지 않는다는 증거</button>
+    <button class="q-opt" onclick="checkQ(1,'b','b')">② 하나님과의 관계가 진짜라는 증거일 수 있다</button>
+    <button class="q-opt" onclick="checkQ(1,'c','b')">③ 성경에 실수로 들어간 구절</button>
+    <button class="q-opt" onclick="checkQ(1,'d','b')">④ 다윗만의 특별한 예외</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q2">
+  <div class="q-num">문제 2</div>
+  <div class="q-text">요한복음 9:2-3에서 예수님이 제자들의 질문("누구의 죄냐")에 대해 하신 일은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(2,'a','b')">① 부모의 죄라고 확정하셨다</button>
+    <button class="q-opt" onclick="checkQ(2,'b','b')">② 아픔=죄의 결과라는 틀 자체를 교정하셨다</button>
+    <button class="q-opt" onclick="checkQ(2,'c','b')">③ 본인의 죄라고 확정하셨다</button>
+    <button class="q-opt" onclick="checkQ(2,'d','b')">④ 질문에 답하지 않고 넘어가셨다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q3">
+  <div class="q-num">문제 3</div>
+  <div class="q-text">"로봇의 사랑" 비유가 보여주려는 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(3,'a','a')">① 진짜 사랑에는 거부할 수 있는 자유가 필요하다</button>
+    <button class="q-opt" onclick="checkQ(3,'b','a')">② 로봇도 사람처럼 사랑할 수 있다</button>
+    <button class="q-opt" onclick="checkQ(3,'c','a')">③ 자유는 위험하므로 없는 게 낫다</button>
+    <button class="q-opt" onclick="checkQ(3,'d','a')">④ 사랑과 자유는 무관하다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q4">
+  <div class="q-num">문제 4</div>
+  <div class="q-text">자연 법칙이 예외 없이 안정적이라는 것의 의미로 옳은 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(4,'a','a')">① 과학·계획·신뢰를 가능하게 하지만, 때로 사람에게 고통도 준다</button>
+    <button class="q-opt" onclick="checkQ(4,'b','a')">② 항상 사람에게 유리하게만 작동한다</button>
+    <button class="q-opt" onclick="checkQ(4,'c','a')">③ 성경이 완전히 설명해준다</button>
+    <button class="q-opt" onclick="checkQ(4,'d','a')">④ 자연재해와는 무관한 개념이다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q5">
+  <div class="q-num">문제 5</div>
+  <div class="q-text">욥기 42:7에서 하나님이 욥의 친구들을 책망하신 이유는?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(5,'a','c')">① 침묵을 지켰기 때문에</button>
+    <button class="q-opt" onclick="checkQ(5,'b','c')">② 욥을 위로하려 했기 때문에</button>
+    <button class="q-opt" onclick="checkQ(5,'c','c')">③ 맞는 말처럼 들리지만 옳지 못한 말을 했기 때문에</button>
+    <button class="q-opt" onclick="checkQ(5,'d','c')">④ 욥의 편을 들었기 때문에</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q6">
+  <div class="q-num">문제 6</div>
+  <div class="q-text">욥기 2:13에서 친구들이 잘한 행동은 무엇이었나요?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(6,'a','b')">① 욥의 잘못을 조목조목 지적한 것</button>
+    <button class="q-opt" onclick="checkQ(6,'b','b')">② 7일 동안 말없이 곁에 앉아 있었던 것</button>
+    <button class="q-opt" onclick="checkQ(6,'c','b')">③ 욥에게 회개를 요구한 것</button>
+    <button class="q-opt" onclick="checkQ(6,'d','b')">④ 욥을 떠나버린 것</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q7">
+  <div class="q-num">문제 7</div>
+  <div class="q-text">요한복음 11:35 "예수께서 눈물을 흘리시더라"가 의미하는 바로 가장 적절한 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(7,'a','b')">① 예수님도 미래를 모르셨다</button>
+    <button class="q-opt" onclick="checkQ(7,'b','b')">② 곧 해결될 것을 아셔도 지금의 슬픔은 진짜였다</button>
+    <button class="q-opt" onclick="checkQ(7,'c','b')">③ 나사로의 죽음이 진짜가 아니었다</button>
+    <button class="q-opt" onclick="checkQ(7,'d','b')">④ 우는 것은 믿음이 약하다는 뜻이다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q8">
+  <div class="q-num">문제 8</div>
+  <div class="q-text">요한계시록 21:4의 약속이 말하는 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(8,'a','a')">① 하나님이 직접 모든 눈물을 닦아주실 새 하늘과 새 땅</button>
+    <button class="q-opt" onclick="checkQ(8,'b','a')">② 죽음은 원래부터 없었다는 뜻</button>
+    <button class="q-opt" onclick="checkQ(8,'c','a')">③ 지금의 고난은 사실 존재하지 않는다는 뜻</button>
+    <button class="q-opt" onclick="checkQ(8,'d','a')">④ 오직 청소년만 받는 약속</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q9">
+  <div class="q-num">문제 9</div>
+  <div class="q-text">아파하는 친구에게 피하는 것이 좋은 말은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(9,'a','a')">① "다 뜻이 있어서 그런 거야"</button>
+    <button class="q-opt" onclick="checkQ(9,'b','a')">② "지금 많이 힘들겠다, 내가 곁에 있을게"</button>
+    <button class="q-opt" onclick="checkQ(9,'c','a')">③ "밥은 먹었어?"</button>
+    <button class="q-opt" onclick="checkQ(9,'d','a')">④ 그냥 옆에 앉아 있기</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q10">
+  <div class="q-num">문제 10</div>
+  <div class="q-text">이 자료가 말하는 "소망"과 "도피"의 차이는?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(10,'a','b')">① 도피는 지금의 고통을 부정하고, 소망도 마찬가지다</button>
+    <button class="q-opt" onclick="checkQ(10,'b','b')">② 소망은 고통을 인정하면서도 버텨낼 힘을 준다</button>
+    <button class="q-opt" onclick="checkQ(10,'c','b')">③ 소망과 도피는 완전히 같은 것이다</button>
+    <button class="q-opt" onclick="checkQ(10,'d','b')">④ 소망은 슬퍼하지 않는 것을 의미한다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="score-box" id="score-section" style="display:none;">
+  <div class="score-num" id="score-display"></div>
+  <p style="font-size:1rem;opacity:.9;" id="score-msg"></p>
+</div>
+</section>
+
+<footer>
+  <p>Made by Isaac with Claude | 고난과 악의 문제 교육자료 — 청소년 버전</p>
+  <p style="margin-top:6px;"><a href="index.html">← 버전 선택으로</a></p>
+</footer>
+
+<script>
+function setActive(el) {
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function switchTab(sectionId, panelId, btn) {
+  const sec = document.getElementById(sectionId);
+  sec.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  sec.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const arrow = btn.querySelector('.arrow');
+  const isOpen = body.classList.contains('open');
+  if (isOpen) {
+    body.style.maxHeight = body.scrollHeight + 'px';
+    requestAnimationFrame(() => {
+      body.classList.remove('open');
+      body.style.maxHeight = '0';
+    });
+  } else {
+    body.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+  if (arrow) arrow.textContent = isOpen ? '▼' : '▲';
+}
+
+const answered = {};
+const ANSWERS = {1:'b',2:'b',3:'a',4:'a',5:'c',6:'b',7:'b',8:'a',9:'a',10:'b'};
+const feedbacks = {
+  1:{a:'다윗은 하나님을 가장 신뢰했던 사람 중 한 명입니다. "믿지 않는다는 증거"는 아닙니다.',b:'맞아요. 시편의 탄식 기도는 오히려 하나님과의 관계가 살아있다는 증거로 볼 수 있습니다.',c:'시편의 탄식시는 성경 전체의 약 3분의 1을 차지할 만큼 의도적으로 담긴 장르입니다.',d:'탄식의 기도는 시편 여러 곳에서 반복해서 나타납니다.'},
+  2:{a:'예수님은 부모의 죄라고 하지 않으셨습니다.',b:'맞아요. 예수님은 "아픔=죄의 결과"라는 자동적인 공식 자체를 거부하셨습니다.',c:'예수님은 본인의 죄라고도 하지 않으셨습니다.',d:'예수님은 오히려 명확하게 답하셨습니다 — 하나님의 일을 나타내기 위함이라고요.'},
+  3:{a:'맞아요. 선택할 수 없다면 그것은 사랑이 아니라 그냥 작동입니다.',b:'비유의 핵심은 정반대입니다 — 강제된 반응은 사랑이 아니라는 것입니다.',c:'이 비유는 자유가 없어야 안전하다는 주장이 아니라, 자유 없이는 사랑도 없다는 것을 보여줍니다.',d:'오히려 사랑이 가능하려면 자유가 전제되어야 한다는 것이 비유의 핵심입니다.'},
+  4:{a:'맞아요. 안정된 자연 법칙은 과학과 신뢰를 가능케 하지만, 같은 이유로 고통도 함께 옵니다.',b:'비는 농부에게도 소풍 가는 사람에게도 똑같이 내립니다 — 항상 유리한 것은 아닙니다.',c:'본문에서도 밝히듯, 성경이 이 모든 것을 다 설명해주지는 않습니다.',d:'자연재해는 이 "규칙 있는 세상"의 대표적인 예 중 하나입니다.'},
+  5:{a:'침묵(2:13)은 오히려 친구들이 잘한 행동으로 평가됩니다.',b:'친구들의 말은 위로처럼 들렸지만 실제로는 그렇지 않았습니다.',c:'맞아요. 42:7에서 하나님은 친구들의 말이 "옳지 못하다"고 판정하십니다 — 그럴듯해도 틀린 위로였다는 것입니다.',d:'친구들은 오히려 욥을 정죄하는 쪽에 가까웠습니다.'},
+  6:{a:'조목조목 지적한 것은 오히려 이야기 후반부의 실패한 행동입니다.',b:'맞아요. 말 없이 7일간 곁에 앉아 있었던 것이 친구들의 가장 좋은 행동으로 평가됩니다.',c:'회개 요구는 이후에 등장하며, 오히려 하나님께 책망받는 부분입니다.',d:'친구들은 욥을 떠나지 않고 찾아와 곁에 앉았습니다.'},
+  7:{a:'예수님은 나사로를 곧 살리실 것을 이미 알고 계셨습니다.',b:'맞아요. 결과를 아셔도 지금 이 순간의 슬픔은 진짜였다는 것이 핵심입니다.',c:'나사로의 죽음은 실제였고, 예수님은 실제로 그를 살리셨습니다.',d:'예수님이 우신 것 자체가 우는 것이 믿음의 부족이 아님을 보여줍니다.'},
+  8:{a:'맞아요. 하나님이 직접 모든 눈물을 닦아주시는 새 창조에 대한 약속입니다.',b:'이 구절은 죽음이 "다시는 없으리라"고 말하지, 원래 없었다고 하지 않습니다.',c:'오히려 지금의 고난이 실재함을 전제하고, 그것이 회복될 것을 약속합니다.',d:'이 약속은 특정 연령이 아니라 모든 사람을 향한 것입니다.'},
+  9:{a:'정답이에요. "다 뜻이 있어서 그런 거야" 같은 말은 고난을 성급히 설명하려다 오히려 상처를 주기 쉬워, 피하는 게 좋은 말입니다.',b:'이건 곁에 있겠다는 따뜻한 위로예요 — 피해야 할 말이 아니라 오히려 해도 좋은 말입니다.',c:'구체적인 안부를 묻는 좋은 돌봄이에요 — 피해야 할 말이 아닙니다.',d:'말없이 곁에 있어 주는 건 최고의 위로예요 — 피해야 할 말이 아닙니다.'},
+  10:{a:'소망은 도피와 다르게 고통을 부정하지 않습니다.',b:'맞아요. 소망은 아픔을 인정하면서도 오늘을 버텨낼 힘을 줍니다.',c:'소망과 도피는 다릅니다 — 도피는 외면하고, 소망은 마주하며 나아갑니다.',d:'소망을 가진다고 슬픔이 사라지는 것은 아닙니다. 예수님도 우셨습니다.'}
+};
+
+function checkQ(qNum, chosen, correctAns) {
+  if (answered[qNum]) return;
+  answered[qNum] = chosen;
+  const letters = ['a','b','c','d'];
+  const card = document.querySelectorAll('#s8 .quiz-card')[qNum - 1];
+  const opts = card.querySelectorAll('.q-opt');
+  opts.forEach((opt, i) => {
+    opt.disabled = true;
+    if (letters[i] === correctAns) opt.classList.add('correct');
+    else if (letters[i] === chosen) opt.classList.add('wrong');
+  });
+  const fb = card.querySelector('.q-feedback');
+  fb.textContent = feedbacks[qNum][chosen] || '';
+  fb.style.display = 'block';
+  if (Object.keys(answered).length === 10) {
+    const score = Object.keys(answered).filter(k => answered[k] === ANSWERS[k]).length;
+    const scoreBox = document.getElementById('score-section');
+    document.getElementById('score-display').textContent = score + ' / 10';
+    const msgs = ['다시 한번 차분히 읽어보면 좋겠어요','조금 더 살펴봐요','절반은 이해했어요','내용을 잘 이해하고 있어요','핵심을 잘 파악했어요','꼼꼼하게 이해했네요'];
+    document.getElementById('score-msg').textContent = msgs[Math.min(Math.floor(score/2), 5)];
+    scoreBox.style.display = 'block';
+    scoreBox.scrollIntoView({behavior:'smooth'});
+  }
+}
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (s.getBoundingClientRect().top <= 120) cur = s.id; });
+  navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
+});
+</script>
+</body>
+</html>
