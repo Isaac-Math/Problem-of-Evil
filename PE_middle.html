@@ -36,7 +36,7 @@
         border-bottom: 2px solid var(--pe-xlight); padding: 0 16px;
         overflow-x: auto; scrollbar-width: none; }
   nav::-webkit-scrollbar { display: none; }
-  .nav-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 0;
+  .nav-inner { width: fit-content; max-width: 100%; margin: 0 auto; display: flex; gap: 0;
                overflow-x: auto; scrollbar-width: none; }
   .nav-inner::-webkit-scrollbar { display: none; }
   .nav-inner::after { content: ''; flex: 0 0 16px; }
@@ -564,8 +564,17 @@ function toggleAcc(btn) {
       body.style.maxHeight = '0';
     });
   } else {
+    // 정확한 목표 높이 측정: 트랜지션을 잠시 끄고 자연 높이(패딩 포함)를 잰 뒤 복원 —
+    // 그러지 않으면 padding 트랜지션 중 측정한 scrollHeight가 ~32px 작아 잘리거나 끝에서 튄다
     body.classList.add('open');
-    body.style.maxHeight = body.scrollHeight + 'px';
+    const _t = body.style.transition;
+    body.style.transition = 'none';
+    body.style.maxHeight = 'none';
+    const target = body.scrollHeight;
+    body.style.maxHeight = '0';
+    void body.offsetHeight;
+    body.style.transition = _t;
+    body.style.maxHeight = target + 'px';
     body.addEventListener('transitionend', function te(e) {
       if (e.propertyName !== 'max-height') return;
       if (body.classList.contains('open')) body.style.maxHeight = 'none';

@@ -19,7 +19,7 @@
   .level-badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 16px;font-size:.8rem;margin-top:12px;}
   nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid var(--pe-xlight);padding:0 16px;overflow-x:auto;scrollbar-width:none;}
   nav::-webkit-scrollbar{display:none;}
-  .nav-inner{max-width:900px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+  .nav-inner{width:fit-content;max-width:100%;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
   .nav-inner::after{content:'';flex:0 0 16px;}
   .nav-inner::-webkit-scrollbar{display:none;}
   nav a{display:inline-block;padding:13px 14px;font-size:.83rem;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;}
@@ -980,7 +980,14 @@ function toggleAcc(btn){
     });
   } else {
     body.classList.add('open');
-    body.style.maxHeight=body.scrollHeight+'px';
+    const _t=body.style.transition;
+    body.style.transition='none';
+    body.style.maxHeight='none';
+    const target=body.scrollHeight;
+    body.style.maxHeight='0';
+    void body.offsetHeight;
+    body.style.transition=_t;
+    body.style.maxHeight=target+'px';
     body.addEventListener('transitionend',function te(e){
       if(e.propertyName!=='max-height') return;
       if(body.classList.contains('open')) body.style.maxHeight='none';
