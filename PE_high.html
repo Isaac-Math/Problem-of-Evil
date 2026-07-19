@@ -1055,6 +1055,26 @@ window.addEventListener('scroll',()=>{
     a.classList.toggle('active',a.getAttribute('href')==='#'+cur);
   });
 });
+
+// 스크롤스파이 — 스크롤 시 현재 섹션에 맞춰 nav 언더바를 이동시킨다(클릭과 공존, 2026-07-19 표준화)
+(function () {
+  const navLinks = document.querySelectorAll('nav a');
+  const map = {};
+  navLinks.forEach(function (a) {
+    const h = a.getAttribute('href');
+    if (h && h.charAt(0) === '#') map[h.slice(1)] = a;
+  });
+  if (!('IntersectionObserver' in window)) return;
+  const obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting && map[e.target.id]) {
+        navLinks.forEach(function (a) { a.classList.remove('active'); });
+        map[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  document.querySelectorAll('section[id]').forEach(function (sec) { obs.observe(sec); });
+})();
 </script>
 </body>
 </html>
