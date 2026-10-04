@@ -38,7 +38,7 @@
     --bg: #f9fafb;
     --card: #ffffff;
     --text: #1a1a2e;
-    --muted: #6c757d;
+    --muted: #5c636a;
     --border: #dee2e6;
     --radius: 12px;
     --shadow: 0 2px 12px rgba(0,0,0,0.08);
@@ -171,11 +171,17 @@
     .flip-grid { grid-template-columns: 1fr 1fr; }
     .person-grid { grid-template-columns: 1fr; }
   }
+  /* 상단 바: 알약 버튼은 한 줄로 유지하고, 경로 문구는 좁은 화면에서 숨긴다 */
+  .top-bar a { white-space: nowrap; flex-shrink: 0; }
+  .top-bar > span:last-child { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 480px) { .top-bar > span:nth-last-child(-n+2) { display: none; } }
+  /* nav로 이동했을 때 섹션 제목이 고정 nav 밑에 가리지 않게 */
+  section[id] { scroll-margin-top: 60px; }
 </style>
 </head>
 <body>
 
-<div style="background:#23253a;padding:10px 20px;display:flex;align-items:center;gap:10px;">
+<div class="top-bar" style="background:#23253a;padding:10px 20px;display:flex;align-items:center;gap:10px;">
   <a href="https://faithreason.kr/Faith_Reason/" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:4px 12px;">← 전체 시리즈</a>
   <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
   <a href="index.html" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:4px 12px;">🏠 홈으로</a>
@@ -205,7 +211,7 @@
 
 <!-- S0 물어봐도 괜찮아 -->
 <section id="s0" class="section">
-<div class="section-title">🕯️ 물어봐도 괜찮아</div>
+<h2 class="section-title">🕯️ 물어봐도 괜찮아</h2>
 <p class="section-sub">"하나님이 계신데 왜 이런 일이 일어날까?" — 이 질문은 불신앙의 표시가 아닙니다.</p>
 
 <div class="care-box">
@@ -235,7 +241,7 @@
 
 <!-- S1 아픔의 시작 -->
 <section id="s1" class="section">
-<div class="section-title">🌱 아픔은 어디서 왔을까</div>
+<h2 class="section-title">🌱 아픔은 어디서 왔을까</h2>
 <p class="section-sub">창조는 좋았습니다 — 그런데 왜 지금 세상은 이렇게 아플까요?</p>
 
 <div class="card">
@@ -250,7 +256,7 @@
 </div>
 
 <div class="verse-card">
-  "랍비여 이 사람이 맹인으로 난 것이 누구의 죄로 인함이니이까 자기니이까 그의 부모니이까... 이 사람이나 그 부모가 죄를 범한 것이 아니라 그에게서 하나님이 하시는 일을 나타내고자 하심이라"
+  "랍비여 이 사람이 맹인으로 난 것이 누구의 죄로 인함이니이까 자기니이까 그의 부모니이까... 이 사람이나 그 부모의 죄로 인한 것이 아니라 그에게서 하나님이 하시는 일을 나타내고자 하심이라"
   <span class="verse-ref">— 요한복음 9:2-3</span>
 </div>
 
@@ -259,7 +265,7 @@
 
 <!-- S2 자유와 사랑 -->
 <section id="s2" class="section">
-<div class="section-title">🎁 막을 수 있는데 왜 안 막으실까</div>
+<h2 class="section-title">🎁 막을 수 있는데 왜 안 막으실까</h2>
 <p class="section-sub">자유의지 변론 — 로봇의 비유로 쉽게 이해하기.</p>
 
 <div class="tab-bar">
@@ -286,7 +292,7 @@
 
 <!-- S3 지진과 병 -->
 <section id="s3" class="section">
-<div class="section-title">🌋 지진과 병은 누구 잘못도 아닌데</div>
+<h2 class="section-title">🌋 지진과 병은 누구 잘못도 아닌데</h2>
 <p class="section-sub">자연악의 문제 — 사람의 선택과 무관한 아픔은 왜 있을까.</p>
 
 <div class="card">
@@ -303,7 +309,7 @@
 
 <!-- S4 욥 이야기 -->
 <section id="s4" class="section">
-<div class="section-title">📜 욥 이야기</div>
+<h2 class="section-title">📜 욥 이야기</h2>
 <p class="section-sub">성경이 직접 품고 있는, 가장 정직한 고난의 이야기.</p>
 
 <div class="acc-item">
@@ -332,7 +338,7 @@
 
 <!-- S5 우는 예수님 -->
 <section id="s5" class="section">
-<div class="section-title">😢 우는 예수님</div>
+<h2 class="section-title">😢 우는 예수님</h2>
 <p class="section-sub">하나님은 아픔 바깥에 서 계신 분이 아닙니다.</p>
 
 <div class="card">
@@ -345,7 +351,7 @@
 
 <!-- S6 끝이 아니야 -->
 <section id="s6" class="section" style="background:linear-gradient(180deg,#fff 0%,var(--gold-light) 100%);">
-<div class="section-title" style="color:#b5651d;">🌅 끝이 아니야</div>
+<h2 class="section-title" style="color:#b5651d;">🌅 끝이 아니야</h2>
 <p class="section-sub">지금의 아픔이 마지막 장면은 아닙니다.</p>
 
 <div class="card" style="border-top:4px solid var(--gold);">
@@ -360,12 +366,12 @@
 
 <!-- S7 친구 곁에서 -->
 <section id="s7" class="section">
-<div class="section-title">🤝 아파하는 친구 곁에서</div>
+<h2 class="section-title">🤝 아파하는 친구 곁에서</h2>
 <p class="section-sub">지식보다 중요한 건, 무엇을 하느냐입니다.</p>
 
 <div class="card">
   <p style="font-weight:700;color:var(--pe);margin-bottom:12px;">욥의 친구들이 유일하게 잘한 일</p>
-  <div class="verse-card">"밤낮 칠 일을 그와 함께 땅에 앉았으나 그의 고통이 심함을 보고 그에게 한마디도 말하는 자가 없었더라"<span class="verse-ref">— 욥기 2:13</span></div>
+  <div class="verse-card">"밤낮 칠 일 동안 그와 함께 땅에 앉았으나 욥의 고통이 심함을 보므로 그에게 한마디도 말하는 자가 없었더라"<span class="verse-ref">— 욥기 2:13</span></div>
   <p>욥의 친구들이 입을 열기 전, 7일 동안 침묵하며 곁에 앉아 있었던 것 — 그것이 이야기 전체에서 그들이 가장 잘한 일이었습니다. 문제는 그다음, 설명하려고 입을 열면서부터 시작되었습니다.</p>
 </div>
 
@@ -395,7 +401,7 @@
 
 <!-- S8 인물 카드 + 퀴즈 -->
 <section id="s8" class="section">
-<div class="section-title">🌟 인물 카드</div>
+<h2 class="section-title">🌟 인물 카드</h2>
 <p class="section-sub">고난 앞에서 정직하게 씨름했던 네 사람.</p>
 
 <div class="person-grid">
@@ -429,7 +435,7 @@
   </div>
 </div>
 
-<div class="section-title" style="margin-top:40px;">📝 퀴즈</div>
+<h2 class="section-title" style="margin-top:40px;">📝 퀴즈</h2>
 <p class="section-sub">10문항 — 배운 내용을 차분히 점검해보세요.</p>
 
 <div class="quiz-card" id="q1">
@@ -664,12 +670,21 @@ window.addEventListener('scroll', () => {
     const h = a.getAttribute('href');
     if (h && h.charAt(0) === '#') map[h.slice(1)] = a;
   });
+  // 현재 섹션의 링크가 nav 화면 밖에 있으면 nav만 가로로 움직여 보이게 한다(페이지 세로 스크롤은 건드리지 않음)
+  function showInNav(a) {
+    let box = a.parentElement;
+    while (box && box !== document.body && !(/(auto|scroll)/.test(getComputedStyle(box).overflowX) && box.scrollWidth > box.clientWidth + 1)) box = box.parentElement;
+    if (!box || box === document.body) return;
+    const r = a.getBoundingClientRect(), b = box.getBoundingClientRect();
+    if (r.left < b.left + 8 || r.right > b.right - 8) box.scrollLeft += (r.left - b.left) - (b.width - r.width) / 2;
+  }
   if (!('IntersectionObserver' in window)) return;
   const obs = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting && map[e.target.id]) {
         navLinks.forEach(function (a) { a.classList.remove('active'); });
         map[e.target.id].classList.add('active');
+        showInNav(map[e.target.id]);
       }
     });
   }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });

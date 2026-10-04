@@ -31,7 +31,7 @@
   :root {
     --pe:#3d405b; --pe-dark:#23253a; --pe-light:#8e91ad; --pe-xlight:#eaebf2;
     --gold:#f4a261; --gold-light:#fde9d4;
-    --bg:#f9fafb; --card:#ffffff; --text:#1a1a2e; --muted:#6c757d;
+    --bg:#f9fafb; --card:#ffffff; --text:#1a1a2e; --muted:#5c636a;
     --border:#dee2e6; --radius:12px; --shadow:0 2px 12px rgba(0,0,0,0.08);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -141,11 +141,17 @@
     .position-grid{grid-template-columns:1fr;}
     .person-grid{grid-template-columns:1fr;}
   }
+  /* 상단 바: 알약 버튼은 한 줄로 유지하고, 경로 문구는 좁은 화면에서 숨긴다 */
+  .top-bar a{white-space:nowrap;flex-shrink:0;}
+  .top-bar>span:last-child{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  @media(max-width:480px){.top-bar>span:nth-last-child(-n+2){display:none;}}
+  /* nav로 이동했을 때 섹션 제목이 고정 nav 밑에 가리지 않게 */
+  section[id]{scroll-margin-top:60px;}
 </style>
 </head>
 <body>
 
-<div style="background:#23253a;padding:10px 20px;display:flex;align-items:center;gap:10px;">
+<div class="top-bar" style="background:#23253a;padding:10px 20px;display:flex;align-items:center;gap:10px;">
   <a href="https://faithreason.kr/Faith_Reason/" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:4px 12px;">← 전체 시리즈</a>
   <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
   <a href="index.html" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:4px 12px;">🏠 홈으로</a>
@@ -182,7 +188,7 @@
 
 <!-- S0 도입 -->
 <section id="s0" class="section">
-<div class="section-title">소개 — 두 개의 문제</div>
+<h2 class="section-title">소개 — 두 개의 문제</h2>
 <p class="section-sub">지적 문제와 실존적 문제를 구별하는 것 자체가 이 자료의 방법론입니다.</p>
 
 <div class="care-box">
@@ -209,7 +215,7 @@
 
 <!-- S1 문제의 정식화 -->
 <section id="s1" class="section">
-<div class="section-title">문제의 정식화 — 정확하게 묻기</div>
+<h2 class="section-title">문제의 정식화 — 정확하게 묻기</h2>
 <p class="section-sub">에피쿠로스의 오래된 트릴레마부터 현대의 논리적·증거적 정식화까지.</p>
 
 <div class="tab-bar">
@@ -267,7 +273,7 @@
 
 <!-- S2 자유의지 변론 -->
 <section id="s2" class="section">
-<div class="section-title">자유의지 변론 — 논리적 문제의 전환점</div>
+<h2 class="section-title">자유의지 변론 — 논리적 문제의 전환점</h2>
 <p class="section-sub">플란팅가의 구별이 어떻게 논리적 문제의 전선을 이동시켰는가.</p>
 
 <div class="card">
@@ -292,7 +298,7 @@
 </div>
 
 <div class="success-box">
-  <strong>학계의 판정:</strong> 플란팅가의 자유의지 변론 이후, 논리적 문제(모순 주장)는 철학계에서 대체로 "해소되었다"는 평가를 받습니다. 흥미롭게도 무신론 철학자 윌리엄 로우조차 "논리적 문제는 이제 대부분의 철학자들 사이에서 해결된 것으로 간주된다"고 인정한 바 있습니다. 그 결과 전장은 증거적 문제로 이동했습니다.
+  <strong>학계의 판정:</strong> 플란팅가의 자유의지 변론 이후, 논리적 문제(모순 주장)는 철학계에서 대체로 "해소되었다"는 평가를 받습니다. 흥미롭게도 무신론 철학자 윌리엄 로우조차 1979년 논문 각주에서, 악의 존재와 유신론의 신이 논리적으로 모순이라는 '과도한 주장'을 입증하는 데 성공한 사람은 없다고 보았습니다(근거로 플란팅가의 책을 들었습니다). 매키 자신도 사후 출간된 『The Miracle of Theism』(1982)에서 악의 문제가 유신론의 핵심 교리들 사이의 논리적 모순을 보여주지는 못한다는 점을 인정했습니다 — 다만 자유의지 변론이 설득력 있는 해결이라고 보지는 않았습니다. 그 결과 전장은 증거적 문제로 이동했습니다.
 </div>
 
 <p style="margin-top:14px;font-size:.9rem;color:var(--muted);"><strong>남는 질문:</strong> 자유의지 변론은 도덕악(사람이 선택한 악)은 설명하지만, 지진이나 질병 같은 자연악은 어떻게 되는가? 이 질문은 S5에서 본격적으로 다룹니다.</p>
@@ -300,7 +306,7 @@
 
 <!-- S3 영혼 형성 신정론 -->
 <section id="s3" class="section">
-<div class="section-title">영혼 형성 신정론과 그 한계</div>
+<h2 class="section-title">영혼 형성 신정론과 그 한계</h2>
 <p class="section-sub">힉의 이레니우스적 신정론 — 강점과, 참혹악 앞에서의 실패.</p>
 
 <div class="card">
@@ -331,7 +337,7 @@
 
 <!-- S4 회의적 유신론 -->
 <section id="s4" class="section">
-<div class="section-title">회의적 유신론 — 우리는 판정할 위치에 있는가</div>
+<h2 class="section-title">회의적 유신론 — 우리는 판정할 위치에 있는가</h2>
 <p class="section-sub">위크스트라의 CORNEA 원리와 욥기 38장의 공명.</p>
 
 <div class="card">
@@ -358,7 +364,7 @@
 
 <!-- S5 자연악과 진화 -->
 <section id="s5" class="section">
-<div class="section-title">자연악과 진화 — 이 시리즈의 학술 차별점</div>
+<h2 class="section-title">자연악과 진화 — 이 시리즈의 학술 차별점</h2>
 <p class="section-sub">인간 등장 이전 수억 년의 포식과 고통을 신학적으로 어떻게 다룰 것인가.</p>
 
 <div class="card">
@@ -402,7 +408,7 @@
 
 <!-- S6 욥기 주해 -->
 <section id="s6" class="section">
-<div class="section-title">성경의 응답 1 — 욥기 주해</div>
+<h2 class="section-title">성경의 응답 1 — 욥기 주해</h2>
 <p class="section-sub">장르 인식이 해석을 좌우한다 — 산문 액자와 운문 논쟁의 긴장.</p>
 
 <div class="card">
@@ -436,17 +442,17 @@
 
 <!-- S7 탄식의 전통 -->
 <section id="s7" class="section">
-<div class="section-title">성경의 응답 2 — 탄식의 전통</div>
+<h2 class="section-title">성경의 응답 2 — 탄식의 전통</h2>
 <p class="section-sub">시편의 최대 장르, 그리고 어둠으로 끝나는 유일한 시.</p>
 
 <div class="card">
   <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">탄식시의 문법</p>
-  <p>통계적으로 시편에서 가장 많은 장르는 찬양시가 아니라 <strong>탄식시(lament)</strong>입니다 — 전체의 약 3분의 1을 차지합니다. 개인 탄식시는 일반적으로 다음 문법을 따릅니다: <strong>호소(주여, 들으소서)</strong> → <strong>불평(어찌하여 나를 버리셨나이까)</strong> → <strong>간구(나를 건지소서)</strong> → <strong>신뢰로의 전환(그러나 나는 주를 의지하리이다)</strong>. 시편 13편이 이 구조의 교과서적 사례입니다 — 1-2절의 격렬한 불평("어느 때까지니이까")이 5-6절에 이르러 "나는 주의 인자하심을 의지하였사오니"라는 신뢰의 고백으로 전환됩니다.</p>
+  <p>통계적으로 시편에서 가장 많은 장르는 찬양시가 아니라 <strong>탄식시(lament)</strong>입니다 — 전체의 약 3분의 1을 차지합니다. 개인 탄식시는 일반적으로 다음 문법을 따릅니다: <strong>호소(주여, 들으소서)</strong> → <strong>불평(어찌 나를 버리셨나이까)</strong> → <strong>간구(나를 건지소서)</strong> → <strong>신뢰로의 전환(그러나 나는 주를 의지하리이다)</strong>. 시편 13편이 이 구조의 교과서적 사례입니다 — 1-2절의 격렬한 불평("어느 때까지니이까")이 5-6절에 이르러 "나는 오직 주의 사랑을 의지하였사오니"라는 신뢰의 고백으로 전환됩니다.</p>
 </div>
 
 <div class="card">
   <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">시편 88 — 어둠으로 끝나는 유일한 시</p>
-  <p>시편 88편은 예외적입니다. 다른 모든 탄식시가 결국 신뢰나 찬양으로 전환되는 것과 달리, 88편은 끝까지 어둠 속에 머뭅니다. 마지막 구절(18절)의 히브리어 원문은 문자 그대로 "<span class="heb">מַחְשָׁךְ</span>(마흐샤크, 어둠)"라는 단어로 끝납니다 — 개역개정은 "주는 내 사랑하는 자와 친구를 내게서 멀리 떠나게 하시며 내가 아는 자를 흑암에 두셨나이다"로 옮깁니다.</p>
+  <p>시편 88편은 예외적입니다. 다른 모든 탄식시가 결국 신뢰나 찬양으로 전환되는 것과 달리, 88편은 끝까지 어둠 속에 머뭅니다. 마지막 구절(18절, 히브리어 성경으로는 19절)의 히브리어 원문은 문자 그대로 "<span class="heb">מַחְשָׁךְ</span>(마흐샤크, 어둠)"라는 단어로 끝납니다 — 개역개정은 "주는 내게서 사랑하는 자와 친구를 멀리 떠나게 하시며 내가 아는 자를 흑암에 두셨나이다"로 옮깁니다.</p>
   <div class="highlight-box">
     <strong>정경적 의미:</strong> 성경의 편집자들이 "해피엔딩 없는 기도"를 정경 안에 그대로 보존했다는 것은 중요한 목회적 함의를 갖습니다. 모든 기도가 신앙고백적 전환으로 끝나야 한다는 압박이 성경 자체에는 없습니다. 어둠 속에서 끝나는 기도도 진짜 기도이며, 정경은 그것을 검열하지 않았습니다.
   </div>
@@ -455,7 +461,7 @@
 <div class="card">
   <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">애가, 하박국, 예레미야의 고백록</p>
   <p><strong>예레미야 애가</strong>는 예루살렘 함락(BC 586)이라는 국가적 대참사 직후에 기록된 시집입니다. 그 한가운데, 애가 3:22-23("여호와의 인자와 긍휼이 무궁하시므로 우리가 진멸되지 아니함이니이다 이것들이 아침마다 새로우니")의 소망 고백이 등장합니다. 중요한 것은 그 소망이 고난과 분리된 낙관이 아니라, <strong>잿더미 한가운데(3장 전체의 폐허 묘사 사이)</strong>에 박혀 있다는 위치입니다.</p>
-  <p style="margin-top:10px;"><strong>하박국</strong>은 하나님께 정의를 따지는 예언자적 항의로 시작해("어찌하여 나로 참혹한 일을 보게 하시나이까", 1:3), 결국 "비록 무화과나무가 무성하지 못하며... 나는 여호와로 말미암아 즐거워하며"(3:17-18)라는 고백에 이릅니다. <strong>예레미야의 고백록(렘 20장)</strong>은 예언자 자신이 "여호와여 주께서 나를 권유하시므로 내가 그 권유를 받았사오며"(20:7)로 시작해 자신의 태어난 날을 저주하는 지점(20:14-18)까지 나아가는, 성경에서 가장 격렬한 인간적 항의 중 하나입니다.</p>
+  <p style="margin-top:10px;"><strong>하박국</strong>은 하나님께 정의를 따지는 예언자적 항의로 시작해("어찌하여 내게 죄악을 보게 하시며 패역을 눈으로 보게 하시나이까", 1:3), 결국 "비록 무화과나무가 무성하지 못하며... 나는 여호와로 말미암아 즐거워하며"(3:17-18)라는 고백에 이릅니다. <strong>예레미야의 고백록(렘 20장)</strong>은 예언자 자신이 "여호와여 주께서 나를 권유하시므로 내가 그 권유를 받았사오며"(20:7)로 시작해 자신의 태어난 날을 저주하는 지점(20:14-18)까지 나아가는, 성경에서 가장 격렬한 인간적 항의 중 하나입니다.</p>
 </div>
 
 <div class="card">
@@ -466,7 +472,7 @@
 
 <!-- S8 십자가 -->
 <section id="s8" class="section">
-<div class="section-title">십자가 — 하나님의 응답</div>
+<h2 class="section-title">십자가 — 하나님의 응답</h2>
 <p class="section-sub">고난당하실 수 있는 하나님인가, 흔들리지 않는 사랑인가.</p>
 
 <div class="card">
@@ -486,13 +492,13 @@
 <div class="card">
   <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">스토트 — 임마누엘 응답의 정점</p>
   <p>존 스토트는 『그리스도의 십자가』(<em>The Cross of Christ</em>, 1986)에서 이렇게 씁니다: "고통의 세계 한복판에서, 고통에 초연한 신을 어떻게 예배할 수 있겠는가? 나는 십자가가 아니었다면 결코 하나님을 믿을 수 없었을 것이다." 그는 여러 불교 사원에서 눈을 감고 초연한 미소를 띤 부처상 앞에 섰던 경험을 이야기하며, 결국 못 박히고 찢기고 하나님께 버림받은 것 같은 고통 속에서 절규하는 십자가의 형상으로 돌아설 수밖에 없었다고 고백합니다. 이것이 그가 "이것이 나를 위한 하나님이다"라고 말하는 이유입니다.</p>
-  <div class="highlight-box">히 4:15 — "우리에게 있는 대제사장은 우리 연약함을 동정하지 못하실 이가 아니요 모든 일에 우리와 똑같이 시험을 받으신 이로되 죄는 없으시니라." 요 11:35의 우시는 예수님과 함께, 이 본문들은 "공감하시는 대제사장"이라는 기독론의 핵심 이미지를 형성합니다.</div>
+  <div class="highlight-box">히 4:15 — "우리에게 있는 대제사장은 우리의 연약함을 동정하지 못하실 이가 아니요 모든 일에 우리와 똑같이 시험을 받으신 이로되 죄는 없으시니라." 요 11:35의 우시는 예수님과 함께, 이 본문들은 "공감하시는 대제사장"이라는 기독론의 핵심 이미지를 형성합니다.</div>
 </div>
 </section>
 
 <!-- S9 문학의 반론과 종말론 -->
 <section id="s9" class="section">
-<div class="section-title">문학의 반론과 종말론적 소망</div>
+<h2 class="section-title">문학의 반론과 종말론적 소망</h2>
 <p class="section-sub">이반 카라마조프의 반역 — 신정론 문학 최강의 반론을 정면으로 마주하다.</p>
 
 <div class="card">
@@ -504,9 +510,9 @@
 
 <div class="card">
   <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">종말론적 응답의 구조</p>
-  <div class="verse-card">"생각하건대 현재의 고난은 장차 우리에게 나타날 영광과 족히 비교할 수 없도다"<span class="verse-ref">— 로마서 8:18</span></div>
+  <div class="verse-card">"생각하건대 현재의 고난은 장차 우리에게 나타날 영광과 비교할 수 없도다"<span class="verse-ref">— 로마서 8:18</span></div>
   <p>바울의 이 선언과 계 21:4의 약속, 그리고 부활(<a href="https://faithreason.kr/Jesus-History/" style="color:var(--pe);font-weight:600;">「예수와 역사」(JH)</a> 크로스링크)과 새 창조(<a href="https://faithreason.kr/Eco-Theology/" style="color:var(--pe);font-weight:600;">ECO</a> 크로스링크)는 함께 종말론적 응답을 구성합니다. 중요한 것은 이것이 <strong>보상(compensation)</strong>이 아니라 <strong>회복과 변용(transformation)</strong>이라는 점입니다 — 애덤스의 '삼켜짐(defeat)' 개념(S3)과 연결됩니다. 고난이 잊혀지거나 상쇄되는 것이 아니라, 하나님과의 연합 안에서 그 의미 자체가 다시 놓이는 것입니다.</p>
-  <div class="highlight-box">고전 15:58 — "그러므로 내 사랑하는 형제들아 견실하며 흔들리지 말며 항상 주의 일에 더욱 힘쓰는 자들이 되라 이는 너희 수고가 주 안에서 헛되지 않은 줄을 앎이라." 종말론적 소망은 현재의 행동을 무의미하게 만들지 않고, 오히려 그것에 궁극적 의미를 부여합니다. (ECO 시리즈 S12와 동형의 논리)</div>
+  <div class="highlight-box">고전 15:58 — "그러므로 내 사랑하는 형제들아 견실하며 흔들리지 말고 항상 주의 일에 더욱 힘쓰는 자들이 되라 이는 너희 수고가 주 안에서 헛되지 않은 줄 앎이라." 종말론적 소망은 현재의 행동을 무의미하게 만들지 않고, 오히려 그것에 궁극적 의미를 부여합니다. (ECO 시리즈 S12와 동형의 논리)</div>
 </div>
 
 <div class="warn-box">
@@ -516,16 +522,21 @@
 
 <!-- S10 뒤집기 -->
 <section id="s10" class="section">
-<div class="section-title">악의 문제 뒤집기 — 신중한 역공</div>
+<h2 class="section-title">악의 문제 뒤집기 — 신중한 역공</h2>
 <p class="section-sub">"악에서의 논증"이 무신론에도 부메랑이 될 수 있는가.</p>
 
 <div class="card">
   <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">숨은 전제 — 객관적 악의 존재론적 기반</p>
-  <p>악에서의 논증(로우, 매키)은 암묵적으로 "객관적 악"이 존재한다는 것을 전제합니다 — 새끼 사슴의 고통이 <em>정말로</em> 나쁘다는 것이 논증의 힘을 이룹니다. 그런데 순수하게 물리적인 우주 안에서 "나쁨(badness)"이라는 도덕적 성질은 어디에서 오는가? C.S. 루이스는 『순전한 기독교』에서 이 논점을 제시합니다 — 그가 무신론자였을 때 우주가 "불의하다"고 느꼈던 것 자체가, 정의라는 기준선(직선)을 이미 전제하고 있었다는 것입니다. "구부러진 막대(a crooked line)"라는 개념은 곧은 선에 대한 관념 없이는 성립할 수 없습니다. 이것이 도덕 실재론에서 유신론으로 향하는 역논증입니다.</p>
+  <p>무신론자가 악에서의 논증을 자기 입장에서 펼칠 때는 새끼 사슴의 고통이 <em>정말로</em> 나쁘다는 판단이 논증의 힘을 이룹니다. 그런데 순수하게 물리적인 우주 안에서 "나쁨(badness)"이라는 도덕적 성질은 어디에서 오는가? C.S. 루이스는 『순전한 기독교』에서 이 논점을 제시합니다 — 그가 무신론자였을 때 우주가 "불의하다"고 느꼈던 것 자체가, 정의라는 기준선(직선)을 이미 전제하고 있었다는 것입니다. "구부러진 막대(a crooked line)"라는 개념은 곧은 선에 대한 관념 없이는 성립할 수 없습니다. 이것이 도덕 실재론에서 유신론으로 향하는 역논증입니다.</p>
 </div>
 
 <div class="warn-box">
   <strong>과신 경고:</strong> 이 논증은 고통을 1그램도 줄이지 않습니다. 철학적 반론으로서의 가치와, 고통 앞에서의 위로로서의 가치는 완전히 다른 문제입니다. 이 논증을 고난받는 사람 앞에서 "그러니 신이 있다"는 식으로 제시하는 것은 욥의 친구들의 실패를 반복하는 것입니다.
+</div>
+
+<div class="card">
+  <p style="font-weight:700;color:var(--pe);margin-bottom:10px;">공정하게 덧붙이면 — 이 역논증에 대한 응답</p>
+  <p>이 역논증에는 강력한 응답이 있습니다. 악에서의 논증은 유신론자 자신이 받아들이는 전제('악은 실재하며 하나님은 선하시다')만으로 유신론 내부의 정합성을 묻는 <strong>'내적 비판'</strong>으로 제시될 수 있으므로, 무신론자가 도덕 실재론을 따로 입증할 필요가 없습니다. 실제로 매키는 '객관적 가치는 없다'고 주장한 도덕 회의론자였습니다. 따라서 이 논증은 악에서의 논증을 반박한다기보다, 악 앞의 정당한 분노가 무엇에 근거하는지를 묻는 별도의 질문으로 보는 편이 정확합니다.</p>
 </div>
 
 <div class="card">
@@ -543,7 +554,7 @@
 
 <!-- S11 목회적 실천 -->
 <section id="s11" class="section">
-<div class="section-title">목회적 실천 — 동행의 기술</div>
+<h2 class="section-title">목회적 실천 — 동행의 기술</h2>
 <p class="section-sub">지적 논증이 끝나는 자리에서, 무엇을 할 것인가.</p>
 
 <div class="card">
@@ -588,7 +599,7 @@
 
 <!-- S12 학자 카드 -->
 <section id="s12" class="section">
-<div class="section-title">주요학자</div>
+<h2 class="section-title">주요학자</h2>
 <p class="section-sub">고난과 악의 문제 논쟁을 이끌어온 9인의 학자들.</p>
 <div class="person-grid">
   <div class="person-card">
@@ -660,7 +671,7 @@
 
 <!-- S13 용어사전 -->
 <section id="s13" class="section">
-<div class="section-title">용어사전</div>
+<h2 class="section-title">용어사전</h2>
 <p class="section-sub">고난과 악의 문제 논의에서 필수적으로 알아야 할 학술 용어들.</p>
 <div class="card" style="padding:0 28px;">
   <div class="gloss-item" style="padding-top:20px;">
@@ -753,7 +764,7 @@
 
 <!-- S14 토론 논제 -->
 <section id="s14" class="section">
-<div class="section-title">토론 논제</div>
+<h2 class="section-title">토론 논제</h2>
 <p class="section-sub">6개의 열린 토론 주제 — 정답이 없는 질문들과 씨름하세요.</p>
 
 <div class="disc-card">
@@ -790,7 +801,7 @@
 
 <!-- S15 레퍼런스 + 퀴즈 -->
 <section id="s15" class="section">
-<div class="section-title">레퍼런스</div>
+<h2 class="section-title">레퍼런스</h2>
 <p class="section-sub">이 자료가 참고한 주요 학술·목회 문헌입니다.</p>
 
 <div class="ref-group">
@@ -839,7 +850,7 @@
   <strong>⚠️ 레퍼런스 사용 안내:</strong> 위 목록은 모두 실재 확인된 문헌입니다. 이 자료는 참사·사건의 실명 사례를 예시로 소비하지 않으며, 역사적 사례(홀로코스트 등)는 학술 논의 맥락에서만 절제된 방식으로 언급합니다. 심리학·애도 이론을 인용할 경우 최신 표준 자료인지 확인이 필요하며, 재난 사례는 시의성보다 안전성을 우선해 다룹니다.
 </div>
 
-<div class="section-title" style="margin-top:40px;">퀴즈</div>
+<h2 class="section-title" style="margin-top:40px;">퀴즈</h2>
 <p class="section-sub">12문항 — 학습한 내용을 차분히 점검해보세요.</p>
 
 <div class="quiz-card">
@@ -879,7 +890,7 @@
   <div class="q-num">문제 4</div>
   <div class="q-text">논리적 문제(악의 존재와 신의 모순)에 대한 현재 철학계의 대체적 평가는?</div>
   <div class="q-options">
-    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',4,'a','a','✓ 정확합니다. 플란팅가의 자유의지 변론 이후 논리적 문제는 대체로 해소된 것으로 평가되며, 무신론 철학자 로우조차 이를 인정했습니다.')">a. 플란팅가의 자유의지 변론 이후 대체로 해소된 것으로 평가된다</button>
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s15',4,'a','a','✓ 정확합니다. 플란팅가의 자유의지 변론 이후 논리적 문제는 대체로 해소된 것으로 평가되며, 무신론 철학자 로우도 1979년 논문에서 논리적 모순을 입증한 사람은 없다고 보았습니다.')">a. 플란팅가의 자유의지 변론 이후 대체로 해소된 것으로 평가된다</button>
     <button class="q-opt" data-val="b" onclick="answerQuiz('s15',4,'b','a','여전히 활발한 논쟁은 증거적 문제 쪽입니다.')">b. 여전히 해결 불가능한 논쟁으로 남아있다</button>
     <button class="q-opt" data-val="c" onclick="answerQuiz('s15',4,'c','a','매키는 끝까지 무신론자였습니다. 다만 사후 출간된 『The Miracle of Theism』(1982)에서 악의 문제가 유신론의 논리적 모순을 증명하지는 못한다는 점은 인정했습니다.')">c. 매키가 자유의지 변론을 받아들여 유신론자가 되었다</button>
     <button class="q-opt" data-val="d" onclick="answerQuiz('s15',4,'d','a','증거적 문제가 오히려 더 활발히 논의되는 영역입니다.')">d. 증거적 문제와 함께 완전히 폐기되었다</button>
@@ -1091,12 +1102,21 @@ window.addEventListener('scroll',()=>{
     const h = a.getAttribute('href');
     if (h && h.charAt(0) === '#') map[h.slice(1)] = a;
   });
+  // 현재 섹션의 링크가 nav 화면 밖에 있으면 nav만 가로로 움직여 보이게 한다(페이지 세로 스크롤은 건드리지 않음)
+  function showInNav(a) {
+    let box = a.parentElement;
+    while (box && box !== document.body && !(/(auto|scroll)/.test(getComputedStyle(box).overflowX) && box.scrollWidth > box.clientWidth + 1)) box = box.parentElement;
+    if (!box || box === document.body) return;
+    const r = a.getBoundingClientRect(), b = box.getBoundingClientRect();
+    if (r.left < b.left + 8 || r.right > b.right - 8) box.scrollLeft += (r.left - b.left) - (b.width - r.width) / 2;
+  }
   if (!('IntersectionObserver' in window)) return;
   const obs = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting && map[e.target.id]) {
         navLinks.forEach(function (a) { a.classList.remove('active'); });
         map[e.target.id].classList.add('active');
+        showInNav(map[e.target.id]);
       }
     });
   }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
